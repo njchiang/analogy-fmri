@@ -1,0 +1,17 @@
+(dp1
+S'session'
+p2
+V000
+p3
+sS'participant'
+p4
+Vblop
+p5
+sS'dateStr'
+p6
+cdatetime
+time
+p7
+(S'\r;\x02\x068\xcc'
+tRp8
+s.

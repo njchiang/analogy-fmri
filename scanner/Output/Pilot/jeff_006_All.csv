@@ -1,0 +1,4 @@
+ABStart,ABDur,CDStart,CDDur,QStart,QDur,TrialTag,Match,QResponse,QCorrResponse
+3.0184,2.0116,5.5640,2.0164,10.8749,0.5994,stairs:ladder::sickness:medicate,0,['l'],a
+12.4858,2.0109,15.3898,2.0076,18.3770,0.6354,breathe:live::good:bad,0,['l'],l
+20.0359,2.0114,22.6743,2.0059,25.5171,4.0133,happiness:smile::sadness:cry,1,None,a

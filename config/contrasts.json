@@ -1,0 +1,32 @@
+{
+  "ab2cd": {
+      "grouping": "TrialType",
+      "label": "MainRel",
+      "select": "MainRel"
+  },
+  "ABMainRel": {
+      "grouping": "chunks",
+      "label": "ABMainRel",
+      "select": "AB"
+  },
+  "ABSubRel": {
+    "grouping": "chunks",
+    "label": "ABSubRel",
+    "select": "ABSubRel"
+  },
+  "CDMainRel": {
+      "grouping": "chunks",
+      "label": "CDMainRel",
+      "select": "CDMainRel"
+  },
+  "CDSubRel": {
+    "grouping": "chunks",
+    "label": "CDSubRel",
+    "select": "CDSubRel"
+  },
+  "Match": {
+    "grouping": "chunks",
+    "label": "Match",
+    "select": "CDSubRel"
+  }
+}

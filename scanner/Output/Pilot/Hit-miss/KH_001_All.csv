@@ -1,0 +1,15 @@
+ABStart,ABDur,CDStart,CDDur,QStart,QDur,TrialTag,Match,QResponse,QCorrResponse
+3.0119,2.0112,7.4447,2.0125,10.1446,0.5046,paper:parchment::chair:sofa,1,['a'],a
+11.6611,2.0116,14.2835,2.0066,16.9815,1.1405,thirsty:drink::anger:yell,1,['l'],l
+19.1395,2.0117,21.9459,2.0058,24.5439,0.6913,up:down::high:low,1,['a'],a
+26.2506,2.0120,29.9048,2.0163,32.9348,1.3958,accept:reject::lower:volume,0,['a'],a
+35.3437,2.0126,38.2109,2.0134,40.7553,1.0950,heater:warmth::climb:descend,0,['a'],a
+42.8754,2.0124,45.5828,2.0127,48.4106,0.4716,in:out::left:right,1,['l'],l
+49.9025,2.0172,52.9008,2.0045,55.9012,0.6775,east:west::car:auto,0,['a'],a
+57.5950,2.0131,60.6414,2.0147,63.9142,0.7212,day:evening::speak:express,0,['a'],a
+65.6462,2.0086,69.0121,2.0114,71.6458,1.3173,powerful:meek::rake:fork,0,['a'],l
+73.9836,2.0127,77.2426,2.0057,80.1393,0.6883,work:earn::stairs:ladder,0,['a'],a
+81.8503,2.0114,84.5485,2.0146,87.7661,0.8932,warm:cool::hot:cold,1,['a'],a
+89.6738,2.0120,92.3852,2.0042,95.5663,0.4925,rise:tide::dirty:clean,0,['a'],a
+97.0758,2.0129,99.7095,2.0136,102.6662,0.8734,black:white::terror:fear,0,['l'],l
+104.5623,2.0126,107.1044,2.0108,110.0946,4.0130,rise:sink::shovel:spoon,0,None,l

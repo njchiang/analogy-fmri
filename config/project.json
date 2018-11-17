@@ -1,0 +1,198 @@
+{
+    "projectname": "task-analogy",
+    "filepaths": {
+        "winPaths": {
+            "root": "D:\\fmri\\Analogy",
+            "cloud": "D:\\CloudStation\\Grad\\Research\\Analogy",
+            "code": "D:\\CloudStation\\Grad\\Research\\montilab-ucla\\analogy",
+            "github": "D:\\GitHub\\task-fmri-utils"
+        },
+        "osxPaths": {
+            "root": "/Volumes/fmri/Analogy",
+            "cloud": "/Users/njchiang/CloudStation/Grad/Research/Analogy",
+            "code": "/Users/njchiang/CloudStation/Grad/Research/montilab-ucla/analogy",
+            "github": "/Users/njchiang/GitHub/task-fmri-utils"
+        },
+        "hoffPaths": {
+            "root": "/u/project/monti/Analysis/Analogy",
+            "cloud": "/u/project/monti/Analysis/Analogy",
+            "code": "/u/project/monti/Analysis/Analogy/code/analogy",
+            "github": "/u/project/monti/njchiang/code/task-fmri-utils"
+        },
+        "linuxPaths": {
+            "root": "/home/njchiang/data/fmri/Analogy",
+            "cloud": "/home/njchiang/data/CloudStation/Grad/Research/Analogy",
+            "code": "/home/njchiang/data/CloudStation/Grad/Research/montilab-ucla/analogy",
+            "github": "/home/njchiang/data/GitHub/task-fmri-utils"
+        }
+    },
+    "subjects": {
+        "sub-01": [
+            "run-01",
+            "run-02",
+            "run-03",
+            "run-04",
+            "run-05",
+            "run-06",
+            "run-07",
+            "run-08"
+        ],
+        "sub-02": [
+            "run-01",
+            "run-02",
+            "run-03",
+            "run-04",
+            "run-05",
+            "run-06",
+            "run-07",
+            "run-08"
+        ],
+        "sub-03": [
+            "run-01",
+            "run-02",
+            "run-03",
+            "run-04",
+            "run-05",
+            "run-06",
+            "run-07",
+            "run-08"
+        ],
+        "sub-04": [
+            "run-01",
+            "run-02",
+            "run-03",
+            "run-04",
+            "run-05",
+            "run-06",
+            "run-07",
+            "run-08"
+        ],
+        "sub-05": [
+            "run-01",
+            "run-02",
+            "run-03",
+            "run-04",
+            "run-05",
+            "run-06",
+            "run-07",
+            "run-08"
+        ],
+        "sub-06": [
+            "run-01",
+            "run-02",
+            "run-03",
+            "run-04",
+            "run-05",
+            "run-06",
+            "run-07",
+            "run-08"
+        ],
+        "sub-07": [
+            "run-01",
+            "run-02",
+            "run-03",
+            "run-04",
+            "run-05",
+            "run-06",
+            "run-07",
+            "run-08"
+        ],
+        "sub-08": [
+            "run-01",
+            "run-02",
+            "run-03",
+            "run-04",
+            "run-05",
+            "run-06",
+            "run-07",
+            "run-08"
+        ],
+        "sub-09": [
+            "run-01",
+            "run-02",
+            "run-03",
+            "run-04",
+            "run-05",
+            "run-06",
+            "run-07",
+            "run-08"
+        ],
+        "sub-10": [
+            "run-01",
+            "run-02",
+            "run-03",
+            "run-04",
+            "run-05",
+            "run-06",
+            "run-07",
+            "run-08"
+        ],
+        "sub-11": [
+            "run-01",
+            "run-02",
+            "run-03",
+            "run-04",
+            "run-05",
+            "run-06",
+            "run-07",
+            "run-08"
+        ],
+        "sub-12": [
+            "run-01",
+            "run-02",
+            "run-03",
+            "run-04",
+            "run-05",
+            "run-06",
+            "run-07",
+            "run-08"
+        ],
+        "sub-13": [
+            "run-01",
+            "run-02",
+            "run-03",
+            "run-04",
+            "run-05",
+            "run-06",
+            "run-07",
+            "run-08"
+        ],
+        "sub-14": [
+            "run-01",
+            "run-02",
+            "run-03",
+            "run-04",
+            "run-05",
+            "run-06",
+            "run-07",
+            "run-08"
+        ],
+        "sub-15": [
+            "run-01",
+            "run-02",
+            "run-03",
+            "run-04",
+            "run-05",
+            "run-06",
+            "run-07",
+            "run-08"
+        ],
+        "sub-16": [
+            "run-01",
+            "run-02",
+            "run-03",
+            "run-04",
+            "run-05",
+            "run-06",
+            "run-07",
+            "run-08"
+        ]
+    },
+    "templates": {
+        "betas": "{}_task-analogy_{}_betas-{}.nii.gz",
+        "func": "{}_task-analogy_{}_bold.nii.gz",
+        "events": "{}_task-analogy_{}_events.csv",
+        "reg": "BOLD_template.nii.gz",
+        "masks": "{}.nii.gz"
+    }
+}

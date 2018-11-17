@@ -1,0 +1,8 @@
+The singer kissed the guitarist.,1,Illustrations/l_Kiss_Touch_Anim_Act_Can.jpg,0,Sentence,1,1,1,1,1,1,Touch,s_Kiss_Touch_Anim_Act_Can,Was there a microphone?,5,10,2,Agent
+The broccoli was touched by the gravy.,1,Illustrations/l_Touch_Touch_Inanim_Pass_Can.jpg,0,Sentence,2,2,1,2,2,1,Touch,s_Touch_Touch_Inanim_Pass_Can,Was the vegetable red?,5,10,2,Patient
+Here's the goalie who kicked the referee.,1,Illustrations/l_Kick_Impact_Anim_Act_Rel.jpg,0,Sentence,3,1,2,3,1,2,Contact by impact,s_Kick_Impact_Anim_Act_Rel,Was there singing?,5,10,2,Event
+Here's the truck that was hit by the bus.,1,Illustrations/l_Hit_Impact_Inanim_Pass_Rel.jpg,0,Sentence,4,2,2,4,2,2,Contact by impact,s_Hit_Impact_Inanim_Pass_Rel,Was the cause of the accident a bicycle?,5,10,2,Agent
+Here's the man who was consoled by the woman.,1,Illustrations/l_Console_Psych_Anim_Pass_Rel.jpg,0,Sentence,5,2,2,4,1,3,Psych verb,s_Console_Psych_Anim_Pass_Rel,Was one participant sad?,5,10,2,Patient
+Here's the tree that crushed the car.,1,Illustrations/l_Crush_Psych_Inanim_Act_Rel.jpg,0,Sentence,6,1,2,3,2,3,Psych verb,s_Crush_Psych_Inanim_Act_Rel,Did something have roots?,5,10,1,Agent
+The dancer was stretched by the trainer.,1,Illustrations/l_Stretch_ChState_Anim_Pass_Can.jpg,0,Sentence,7,2,1,2,1,4,Change of state,s_Stretch_ChState_Anim_Pass_Can,Was someone helpful?,5,10,2,Agent
+The candle lit the match.,1,Illustrations/l_Light_ChState_Inanim_Act_Can.jpg,0,Sentence,8,1,1,1,2,4,Change of state,s_Light_ChState_Inanim_Act_Can,+,0,0,,0

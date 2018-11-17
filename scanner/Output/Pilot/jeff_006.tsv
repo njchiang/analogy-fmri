@@ -1,0 +1,10 @@
+Onset	Duration	TrialTag	ABTag	CDTag	Match	ABMainRel	CDMainRel	ABSubRel	CDSubRel	ProbeResp	ProbeCorr	ProbeArr	AB	CD	Probe
+3.0184	2.0116	stairs:ladder::sickness:medicate	stairs:ladder	None	None	1	None	2	None	0	0	0	1	0	0
+5.5640	2.0164	stairs:ladder::sickness:medicate	None	sickness:medicate	0	None	3	None	8	0	0	0	0	1	0
+10.8749	0.5994	stairs:ladder::sickness:medicate	stairs:ladder	sickness:medicate	0	1	3	2	8	['l']	a	2	0	0	1
+12.4858	2.0109	breathe:live::good:bad	breathe:live	None	None	3	None	9	None	0	0	0	1	0	0
+15.3898	2.0076	breathe:live::good:bad	None	good:bad	0	None	2	None	4	0	0	0	0	1	0
+18.3770	0.6354	breathe:live::good:bad	breathe:live	good:bad	0	3	2	9	4	['l']	l	1	0	0	1
+20.0359	2.0114	happiness:smile::sadness:cry	happiness:smile	None	None	3	None	8	None	0	0	0	1	0	0
+22.6743	2.0059	happiness:smile::sadness:cry	None	sadness:cry	1	None	3	None	8	0	0	0	0	1	0
+25.5171	4.0133	happiness:smile::sadness:cry	happiness:smile	sadness:cry	1	3	3	8	8	None	a	1	0	0	1
