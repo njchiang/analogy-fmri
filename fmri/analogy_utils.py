@@ -10,27 +10,30 @@ import sys
 from sklearn.preprocessing import OneHotEncoder
 
 if sys.platform == 'darwin':
-    cfg = os.path.join("/Users", "njchiang", "CloudStation", "Grad",
-                       "Research", "montilab-ucla", "analogy", "config", "project.json")
+    home = os.path.join("/Users", "njchiang", "GitHub")
     plat = "osx"
 
 elif sys.platform == "linux":
     import platform
     if platform.linux_distribution()[0] == "debian":
-        cfg = os.path.join("/home", "njchiang", "data", "CloudStation", "Grad",
-                           "Research", "montilab-ucla", "analogy", "config", "project.json")
+        home = os.path.join("/home", "njchiang", "data", "CloudStation", "Grad",
+                           "Research", "montilab-ucla")
         plat = "linux"
     else:
-        cfg = os.path.join("/u", "project", "monti", "Analysis", "Analogy",
-                           "code", "analogy", "config", "project.json")
+        home = os.path.join("/u", "project", "monti", "Analysis", "Analogy",
+                           "code")
         plat = "hoff"
 else:
-    cfg = os.path.join("D:\\", "CloudStation", "Grad",
-                       "Research", "montilab-ucla", "analogy", "config", "project.json")
+    home = os.path.join("D:\\", "GitHub")
     plat = "win"
+
+cfg = os.path.join(home, "analogy-fmri", "config", "project.json")
 
 with open(cfg, "r") as f:
     projectSettings = json.load(f)
+
+# sys.path.append(paths["github"])
+# sys.path.append(paths["code"])
 
 projecttitle="Analogy"
 PATHS = projectSettings["filepaths"]["{}Paths".format(plat)]

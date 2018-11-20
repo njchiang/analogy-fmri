@@ -4,25 +4,25 @@
         "winPaths": {
             "root": "D:\\fmri\\Analogy",
             "cloud": "D:\\CloudStation\\Grad\\Research\\Analogy",
-            "code": "D:\\CloudStation\\Grad\\Research\\montilab-ucla\\analogy",
+            "code": "D:\\GitHub\\analogy-fmri",
             "github": "D:\\GitHub\\task-fmri-utils"
         },
         "osxPaths": {
             "root": "/Volumes/fmri/Analogy",
             "cloud": "/Users/njchiang/CloudStation/Grad/Research/Analogy",
-            "code": "/Users/njchiang/CloudStation/Grad/Research/montilab-ucla/analogy",
+            "code": "/Users/njchiang/GitHub/analogy-fmri",
             "github": "/Users/njchiang/GitHub/task-fmri-utils"
         },
         "hoffPaths": {
             "root": "/u/project/monti/Analysis/Analogy",
             "cloud": "/u/project/monti/Analysis/Analogy",
-            "code": "/u/project/monti/Analysis/Analogy/code/analogy",
+            "code": "/u/project/monti/Analysis/Analogy/code/analogy-fmri",
             "github": "/u/project/monti/njchiang/code/task-fmri-utils"
         },
         "linuxPaths": {
             "root": "/home/njchiang/data/fmri/Analogy",
             "cloud": "/home/njchiang/data/CloudStation/Grad/Research/Analogy",
-            "code": "/home/njchiang/data/CloudStation/Grad/Research/montilab-ucla/analogy",
+            "code": "/home/njchiang/data/GitHub/analogy-fmri",
             "github": "/home/njchiang/data/GitHub/task-fmri-utils"
         }
     },
