@@ -1,12 +1,15 @@
 # analogy-fmri
 Code accompanying the analogy fMRI project
+
 Main author: Jeff Chiang
 
 IN PROGRESS
 
 ## Dependencies
 FSL
+
 Python (NiLearn, Scikit-learn, Scipy, NumPy)
+
 Custom repos- Task-fMRI-utils
 
 ## Acquiring data
