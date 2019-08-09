@@ -25,7 +25,7 @@ elif sys.platform == "linux":
         plat = "linux"
     else:
         cfg = os.path.join("/u", "project", "monti", "Analysis", "Analogy",
-                           "code", "analogy", "config", "project.json")
+                           "code", "analogy-fmri", "config", "project.json")
         plat = "hoff"
 else:
     cfg = os.path.join("D:\\", "CloudStation", "Grad",
@@ -47,7 +47,7 @@ from fmri.analogy_rsa import get_model_rdms
 # analysisSettings["searchlight"]["estimator"] = LinearSVC()
 
 # "humanratings", "typicality"
-modelnames = ["rel", "numchar",
+modelnames = ["mainrel", "rel", "numchar",
               "w2vdiff", "concatword",
               "rstpostprob9", "rstpostprob79",
               # ["rel", "rstpostprob9"],
