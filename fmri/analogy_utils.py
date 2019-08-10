@@ -9,63 +9,61 @@ import sys
 
 from sklearn.preprocessing import OneHotEncoder
 
-if sys.platform == 'darwin':
-    home = os.path.join("/Users", "njchiang", "GitHub")
-    plat = "osx"
+from .utils.fmri_core import analysis as pa
+from .utils.fmri_core import utils as pu
+from .utils.fmri_core import vis as pv
+from .utils.fmri_core import rsa
 
-elif sys.platform == "linux":
-    import platform
-    if platform.linux_distribution()[0] == "debian":
-        home = os.path.join("/home", "njchiang", "data", "CloudStation", "Grad",
-                           "Research", "montilab-ucla")
-        plat = "linux"
-    else:
-        home = os.path.join("/u", "project", "monti", "Analysis", "Analogy",
-                           "code")
-        plat = "hoff"
-else:
-    home = os.path.join("D:\\", "GitHub")
-    plat = "win"
 
-cfg = os.path.join(home, "analogy-fmri", "config", "project.json")
+# if sys.platform == 'darwin':
+#     home = os.path.join("/Users", "njchiang", "GitHub")
+#     plat = "osx"
 
+# elif sys.platform == "linux":
+#     import platform
+#     if platform.linux_distribution()[0] == "debian":
+#         home = os.path.join("/home", "njchiang", "data", "CloudStation", "Grad",
+#                            "Research", "montilab-ucla")
+#         plat = "linux"
+#     else:
+#         home = os.path.join("/u", "project", "monti", "Analysis", "Analogy",
+#                            "code")
+#         plat = "hoff"
+# else:
+#     home = os.path.join("D:\\", "GitHub")
+#     plat = "win"
+home = os.path.join("/u", "project", "monti", "Analysis", "Analogy", "code")
+plat = "hoff"
+
+# cfg = os.path.join(home, "analogy-fmri", "config", "project.json")
+cfg = "config/project.json"
 with open(cfg, "r") as f:
     projectSettings = json.load(f)
 
-# sys.path.append(paths["github"])
-# sys.path.append(paths["code"])
+# # sys.path.append(paths["github"])
+# # sys.path.append(paths["code"])
 
 projecttitle="Analogy"
 PATHS = projectSettings["filepaths"]["{}Paths".format(plat)]
-sys.path.append(PATHS["github"])
-
-from fmri_core import analysis as pa
-from fmri_core import utils as pu
-from fmri_core import vis as pv
-from fmri_core import rsa
-
+# sys.path.append(PATHS["github"])
 
 # load analysis settings
-analysisSettings = pu.load_config(os.path.join(PATHS["code"], "config", "analyses.json"))
-contrastSettings = pu.load_config(os.path.join(PATHS["code"], "config", "contrasts.json"))
+# analysisSettings = pu.load_config(os.path.join(PATHS["code"], "config", "analyses.json"))
+# contrastSettings = pu.load_config(os.path.join(PATHS["code"], "config", "contrasts.json"))
+analysisSettings = pu.load_config("config/analyses.json")
+contrastSettings = pu.load_config("config/contrasts.json")
 # trial order
-order = pu.load_labels(os.path.join(PATHS["code"], "labels",
-                                          "trialorder_rsa_absorted.csv"))
+# order = pu.load_labels(os.path.join(PATHS["code"], "labels", "trialorder_rsa_absorted.csv"))
+order = pu.load_labels(os.path.join("labels", "trialorder_rsa_absorted.csv"))
 
 def compile_models(write=False):
     # return dictionary of dictionaries
-    typicality = pu.load_labels(os.path.join(PATHS["code"], "labels",
-                                             "typicality.csv"))
-    w2vdiffs = pu.load_labels(os.path.join(PATHS["code"], "labels",
-                                           "word2vec_diffs.csv"))
-    humanratings = pu.load_labels(os.path.join(PATHS["code"], "labels",
-                                               "humanratings.csv"), skiprows=2)
-    rstpostprob9 = pu.load_mat_data(os.path.join(PATHS["code"], "labels",
-                                                 "rstpostprob9.mat"))
-    rstpostprob79 = pu.load_mat_data(os.path.join(PATHS["code"], "labels",
-                                                  "rstpostprob79.mat"))
-    concatword = pu.load_mat_data(os.path.join(PATHS["code"], "labels",
-                                               "w2vconcat.mat"))
+    typicality = pu.load_labels(os.path.join("labels", "typicality.csv"))
+    w2vdiffs = pu.load_labels(os.path.join("labels", "word2vec_diffs.csv"))
+    humanratings = pu.load_labels(os.path.join("labels", "humanratings.csv"), skiprows=2)
+    rstpostprob9 = pu.load_mat_data(os.path.join("labels", "rstpostprob9.mat"))
+    rstpostprob79 = pu.load_mat_data(os.path.join("labels", "rstpostprob79.mat"))
+    concatword = pu.load_mat_data(os.path.join("labels", "w2vconcat.mat"))
     mat_concatword = {}
     mat_rstpostprob79 = {}
     mat_humanratings = {}
