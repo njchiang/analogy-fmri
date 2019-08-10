@@ -9,7 +9,6 @@ prepare-env: activate.sh
 	bash activate.sh
 
 test: prepare-env run_tests.sh
-	make prepare-env
 	bash run_tests.sh
 
 .PHONY: clean
