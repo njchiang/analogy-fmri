@@ -62,7 +62,7 @@ class CVSearchlight:
 
 class RSASearchlight(CVSearchlight):
     def __init__(self, sub, mask_file=None, settings=analysisSettings["searchlight"], phase="AB", logger=None, phase_equals=True, phase_val=1):
-        super(RSASearchlight, self).__init__()
+        super(RSASearchlight, self).__init__(sub, mask_file, settings=settings, phase=phase, logger=logger, phase_equals=phase_equals, phase_val=phase_val)
         self.outpath = os.path.join(paths["root"], "analysis", sub, "multivariate", "searchlight", "rsa", "{}_{}-rsa.nii.gz".format(sub, phase))
 
     def select_data(self, phase="AB", equals=True, val=1):

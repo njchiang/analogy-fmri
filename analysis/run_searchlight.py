@@ -58,9 +58,11 @@ def main(argv):
     logger = pu.setup_logger(os.path.join(paths['root'], 'analysis', sub, 'multivariate', 'searchlight', "lss"), fname="{}_AB-Match.log".format(roi))
     mask_file = os.path.join(paths["root"], "derivatives", sub, "masks", "{}.nii.gz".format(roi))
     if analysis == "cvsl":
+        pu.write_to_logger("Running MVPA", logger)
         sl = CVSearchlight(sub, mask_file, phase=phase, settings=analysisSettings["searchlight"], logger=logger)
         slargs = {}
     elif analysis == "rsa":
+        pu.write_to_logger("Running RSA", logger)
         modelnames = [
             "mainrel", "rel",
             "numchar", "humanratings", "typicality"
