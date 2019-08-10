@@ -6,9 +6,10 @@ from datetime import datetime
 # import pandas as pd
 import numpy as np
 
-from BaseSearchlight import CVSearchlight
+from BaseSearchlight import CVSearchlight, RSASearchlight
 
 from fmri.analogy_utils import analysisSettings, pu, PATHS
+from fmri.analogy_rsa import get_model_rdms
 paths = PATHS
 
 def main(argv):
@@ -18,10 +19,11 @@ def main(argv):
     sub = None
     phase = "AB"
     debug = False
+    analysis = "cvsl"
     try:
         # figure out this line
-        opts, args = getopt.getopt(argv, "h:m:s:p:j:v:r:d",
-                                   ["help", "mask=", "sub=", "phase=", "jobs=", "verbose=", "radius=", "debug"])
+        opts, args = getopt.getopt(argv, "h:m:s:p:j:v:r:t:a:d",
+                                   ["help", "mask=", "sub=", "phase=", "jobs=", "verbose=", "radius=", "analysis", "debug"])
     except getopt.GetoptError:
         print('run_mvpa_searchlight.py -m <maskfile> -s <sub>')
         sys.exit(2)
@@ -31,6 +33,8 @@ def main(argv):
             sys.exit()
         elif opt in ("-d", "--debug"):
             debug = True
+        elif opt in ("-a", "--analysis"):
+            analysis = arg
         elif opt in ("-m", "--mask"):
             roi = arg
         elif opt in ("-s", "--sub"):
@@ -53,11 +57,27 @@ def main(argv):
 
     logger = pu.setup_logger(os.path.join(paths['root'], 'analysis', sub, 'multivariate', 'searchlight', "lss"), fname="{}_AB-Match.log".format(roi))
     mask_file = os.path.join(paths["root"], "derivatives", sub, "masks", "{}.nii.gz".format(roi))
-    sl = CVSearchlight(sub, mask_file, phase=phase, settings=analysisSettings["searchlight"], logger=logger)
-    # if debug:
-        # _ = sl.run()
+    if analysis == "cvsl":
+        sl = CVSearchlight(sub, mask_file, phase=phase, settings=analysisSettings["searchlight"], logger=logger)
+        slargs = {}
+    elif analysis == "rsa":
+        modelnames = [
+            "mainrel", "rel",
+            "numchar", "humanratings", "typicality"
+            "w2vdiff", "concatword",
+            "rstpostprob9", "rstpostprob79"]
+        raw_models_df = pu.load_labels("labels/raw_models.csv")
+        model_rdms = get_model_rdms(raw_models_df, modelnames)
+        modelrdms = model_rdms[(model_rdms.type == "full")].dropna(axis=1).values[:, 2:]
+        sl = RSASearchlight(sub, mask_file, phase=phase, settings=analysisSettings["searchlight"], logger=logger)
+        slargs = {"modelrdms": modelrdms}
+    else:
+        pu.write_to_logger("wrong analysis specified, exiting...", logger)
+        sys.exit(2)
+    
+    if debug:
+        _ = sl.run(**slargs)
     pu.write_to_logger("Session ended at " + str(datetime.now()), logger=logger)
-
 
 
 if __name__ == "__main__":

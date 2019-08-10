@@ -24,11 +24,13 @@ class CVSearchlight:
     def __init__(self, sub, mask_file=None, settings=analysisSettings["searchlight"], phase="AB", logger=None, phase_equals=True, phase_val=1):
         self.logger = logger
         self.sub = sub
+        self.phase = phase
+        self.target = "{}MainRel".format(phase.upper())
         self.mask = pu.load_img(mask_file, logger=logger) if mask_file else None
         self.fmri_data, self.labels, self.bg_image = load_betas(projectSettings, sub, t="cope-LSS", logger=logger)
         self.select_data(phase, phase_equals, phase_val)
         self.init_sl(settings)
-        self.outpath = os.path.join(paths["root"], "analysis", sub, "multivariate", "searchlight", "lss", "{}_{}-cvsl.nii.gz".format(sub, phase))
+        self.outpath = os.path.join(paths["root"], "analysis", sub, "multivariate", "searchlight", "mvpa", "{}_{}-cvsl.nii.gz".format(sub, phase))
 
     def select_data(self, phase="AB", equals=True, val=1):
         if equals:
@@ -49,15 +51,40 @@ class CVSearchlight:
         self.cv = LeaveOneGroupOut()
         self.sl_options = settings
 
-    def run(self):
-        result = pa.searchlight(self.fmri_data, self.selector.ABMainRel,
+    def run(self, **unused):
+        result = pa.searchlight(self.fmri_data, self.selector[self.target],
                                 m=self.mask, cv=self.cv,
                                 groups=self.selector['chunks'], write=False,
                                 logger=self.logger, **self.sl_options)
         pu.data_to_img(result.scores_, self.bg_image, logger=self.logger).to_filename(self.outpath)
         return result
 
-# class CrossSearchlight(CVSearchlight):
+
+class RSASearchlight(CVSearchlight):
+    def __init__(self, sub, mask_file=None, settings=analysisSettings["searchlight"], phase="AB", logger=None, phase_equals=True, phase_val=1):
+        super(RSASearchlight, self).__init__()
+        self.outpath = os.path.join(paths["root"], "analysis", sub, "multivariate", "searchlight", "rsa", "{}_{}-rsa.nii.gz".format(sub, phase))
+
+    def select_data(self, phase="AB", equals=True, val=1):
+        # will be a little more complex
+        if equals:
+            self.selector = self.labels[self.labels[phase] == val].sort_values(["Subrel", "TrialTag"])
+        else:
+            self.selector = self.labels[self.labels[phase] != val]
+        self.fmri_data = pu.index_img(self.fmri_data, self.selector.index)
+
+    def init_sl(self, settings):
+        settings["rdm_metric"] = "correlation"
+        self.sl_options = settings
+
+    def run(self, modelrdms):
+        result = pa.searchlight_rsa(
+            self.fmri_data, modelrdms,
+            m=self.mask, write=False,
+            logger=self.logger, **self.sl_options)
+        pu.data_to_img(result.scores_, self.bg_image, logger=self.logger).to_filename(self.outpath)
+        return result
+        # class CrossSearchlight(CVSearchlight):
 #     def select_data(self, phase=None):
 #         conditionSelector = np.where(labels[contrastSettings[modelname]["label"]] != "None")
 
