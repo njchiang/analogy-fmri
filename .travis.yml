@@ -5,5 +5,5 @@ python:
 install:
   - pip install -r requirements.txt
 # script: python test.py
-# script: source run_tests.sh
-script: make -f Makefile_test
+script: source run_tests.sh
+# script: make -f Makefile_test
