@@ -1,5 +1,6 @@
 # To be deleted
 legacy-ignore/
+scratch/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
