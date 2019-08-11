@@ -32,10 +32,12 @@ from .utils.fmri_core import rsa
 # else:
 #     home = os.path.join("D:\\", "GitHub")
 #     plat = "win"
-home = os.path.join("/u", "project", "monti", "Analysis", "Analogy", "code")
+# home = os.path.join("/u", "project", "monti", "Analysis", "Analogy", "code")
 plat = "hoff"
 
 # cfg = os.path.join(home, "analogy-fmri", "config", "project.json")
+
+# not sure if this will work... 
 cfg = "config/project.json"
 with open(cfg, "r") as f:
     projectSettings = json.load(f)
