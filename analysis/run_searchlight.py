@@ -77,7 +77,7 @@ def main(argv):
         pu.write_to_logger("wrong analysis specified, exiting...", logger)
         sys.exit(2)
     
-    if debug:
+    if not debug:
         _ = sl.run(**slargs)
     pu.write_to_logger("Session ended at " + str(datetime.now()), logger=logger)
 
