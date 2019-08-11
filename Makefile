@@ -23,6 +23,7 @@ help:
 	@echo "make dummy-setup: set up dummy environment for testing paths"
 
 prepare-env:
+	. /u/local/Modules/default/init/modules.sh
 	module load python/anaconda3
 	. /u/local/apps/anaconda3/etc/profile.d/conda.sh
 	. activate.sh
