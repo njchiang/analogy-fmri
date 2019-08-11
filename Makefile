@@ -1,4 +1,4 @@
-.PHONY: help prepare-env test preprocess searchlight-mvpa dummy-setup
+.PHONY: help prepare-env test preprocess searchlight-mvpa searchlight-rsa dummy-setup
 
 # ROOT?=/u/project/monti/Analysis/Analogy
 ROOT?=/tmp/Analogy
@@ -70,9 +70,13 @@ $(ROOT)/analysis/%: $(ROOT)/derivatives/%
 ######################
 ######################
 
-searchlight-mvpa:
-
 preprocess: prepare-env
+
+test-searchlight-mvpa: preprocess analysis/run_searchlight.py
+	python analysis/run_searchlight.py -m graymatter-bin_mask -s sub-01 -d
+
+test-searchlight-rsa: preprocess analysis/run_searchlight.py
+	python analysis/run_searchlight.py -m graymatter-bin_mask -s sub-01 -a rsa -d
 
 .PHONY: clean
 clean:
