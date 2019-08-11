@@ -1,0 +1,3 @@
+[submodule "analysis/fmri/utils"]
+	path = analysis/fmri/utils
+	url = https://github.com/njchiang/task-fmri-utils
