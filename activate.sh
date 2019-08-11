@@ -3,9 +3,11 @@
 activates analogy environment, if not it creates it
 doc
 
+. /u/local/Modules/default/init/modules.sh
+module load python/anaconda3
+. /u/local/apps/anaconda3/etc/profile.d/conda.sh
 
-
-if source /u/local/apps/anaconda3/bin/activate analogy; then
+if conda activate analogy; then
     echo "Environment loaded"
 else
     echo "Creating environment"

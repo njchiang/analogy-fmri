@@ -23,9 +23,6 @@ help:
 	@echo "make dummy-setup: set up dummy environment for testing paths"
 
 prepare-env:
-	. /u/local/Modules/default/init/modules.sh
-	module load python/anaconda3
-	. /u/local/apps/anaconda3/etc/profile.d/conda.sh
 	. activate.sh
 	touch prepare-env
 
@@ -38,11 +35,9 @@ test: prepare-env
 preprocess: prepare-env
 
 test-searchlight-mvpa: prepare-env
-	make prepare-env
 	python analysis/run_searchlight.py -m graymatter-bin_mask -s sub-01 -d
 
 test-searchlight-rsa: prepare-env
-	make prepare-env
 	python analysis/run_searchlight.py -m graymatter-bin_mask -s sub-01 -a rsa -d
 
 .PHONY: clean
