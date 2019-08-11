@@ -20,6 +20,7 @@ help:
 	@echo "make preprocess: run preprocessing"
 	@echo "make dummy-setup: set up dummy environment for testing paths"
 
+.PHONY: prepare-env
 prepare-env: activate.sh
 	bash activate.sh
 
@@ -69,13 +70,12 @@ $(ROOT)/analysis/%: $(ROOT)/derivatives/%
 
 ######################
 ######################
-
 preprocess: prepare-env
 
-test-searchlight-mvpa: preprocess analysis/run_searchlight.py
+test-searchlight-mvpa: prepare-env analysis/run_searchlight.py
 	python analysis/run_searchlight.py -m graymatter-bin_mask -s sub-01 -d
 
-test-searchlight-rsa: preprocess analysis/run_searchlight.py
+test-searchlight-rsa: prepare-env analysis/run_searchlight.py
 	python analysis/run_searchlight.py -m graymatter-bin_mask -s sub-01 -a rsa -d
 
 .PHONY: clean
