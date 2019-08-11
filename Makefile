@@ -2,7 +2,7 @@
 
 # ROOT?=/u/project/monti/Analysis/Analogy
 SHELL=/bin/bash
-CONDAROOT=/u/project
+CONDAROOT=/u/local/apps/anaconda3/bin/activate
 ROOT?=/tmp/Analogy
 # DATA?=${ROOT}/data
 # DERIVATIVES?=${ROOT}/derivatives
@@ -23,11 +23,13 @@ help:
 	@echo "make dummy-setup: set up dummy environment for testing paths"
 
 prepare-env:
-	bash activate.sh
+	module load python/anaconda3
+	. /u/local/apps/anaconda3/etc/profile.d/conda.sh
+	. activate.sh
 	touch prepare-env
 
 test: prepare-env
-	bash run_tests.sh
+	. run_tests.sh
 
 # searchlight-mvpa: prepare-env scripts/run_ab_searchlight.py
 
