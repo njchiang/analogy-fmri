@@ -68,7 +68,7 @@ class RSASearchlight(CVSearchlight):
     def select_data(self, phase="AB", equals=True, val=1):
         # will be a little more complex
         if equals:
-            self.selector = self.labels[self.labels[phase] == val].sort_values(["Subrel", "TrialTag"])
+            self.selector = self.labels[self.labels[phase] == val].sort_values(["SubRel", "TrialTag"])
         else:
             self.selector = self.labels[self.labels[phase] != val]
         self.fmri_data = pu.index_img(self.fmri_data, self.selector.index)
