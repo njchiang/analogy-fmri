@@ -73,9 +73,11 @@ $(ROOT)/analysis/%: $(ROOT)/derivatives/%
 preprocess: prepare-env
 
 test-searchlight-mvpa: prepare-env analysis/run_searchlight.py
+	make prepare-env
 	python analysis/run_searchlight.py -m graymatter-bin_mask -s sub-01 -d
 
 test-searchlight-rsa: prepare-env analysis/run_searchlight.py
+	make prepare-env
 	python analysis/run_searchlight.py -m graymatter-bin_mask -s sub-01 -a rsa -d
 
 .PHONY: clean
