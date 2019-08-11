@@ -1,6 +1,8 @@
 .PHONY: help prepare-env test preprocess searchlight-mvpa searchlight-rsa dummy-setup
 
 # ROOT?=/u/project/monti/Analysis/Analogy
+SHELL=/bin/bash
+CONDAROOT=/u/project
 ROOT?=/tmp/Analogy
 # DATA?=${ROOT}/data
 # DERIVATIVES?=${ROOT}/derivatives
@@ -20,14 +22,29 @@ help:
 	@echo "make preprocess: run preprocessing"
 	@echo "make dummy-setup: set up dummy environment for testing paths"
 
-.PHONY: prepare-env
-prepare-env: activate.sh
+prepare-env:
 	bash activate.sh
+	touch prepare-env
 
-test: prepare-env run_tests.sh
+test: prepare-env
 	bash run_tests.sh
 
 # searchlight-mvpa: prepare-env scripts/run_ab_searchlight.py
+
+#####################
+preprocess: prepare-env
+
+test-searchlight-mvpa: prepare-env
+	make prepare-env
+	python analysis/run_searchlight.py -m graymatter-bin_mask -s sub-01 -d
+
+test-searchlight-rsa: prepare-env
+	make prepare-env
+	python analysis/run_searchlight.py -m graymatter-bin_mask -s sub-01 -a rsa -d
+
+.PHONY: clean
+clean:
+	rm -f test prepare-env preprocess dummy-setup dummy-files searchlight-mvpa help
 
 ### DUMMY TESTING ###
 
@@ -69,17 +86,4 @@ $(ROOT)/analysis/%: $(ROOT)/derivatives/%
 	make echo
 
 ######################
-######################
-preprocess: prepare-env
-
-test-searchlight-mvpa: prepare-env analysis/run_searchlight.py
-	make prepare-env
-	python analysis/run_searchlight.py -m graymatter-bin_mask -s sub-01 -d
-
-test-searchlight-rsa: prepare-env analysis/run_searchlight.py
-	make prepare-env
-	python analysis/run_searchlight.py -m graymatter-bin_mask -s sub-01 -a rsa -d
-
-.PHONY: clean
-clean:
-	rm -f test prepare-env preprocess dummy-setup dummy-files searchlight-mvpa help
+#
