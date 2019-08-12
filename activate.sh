@@ -7,11 +7,11 @@ doc
 module load python/anaconda3
 . /u/local/apps/anaconda3/etc/profile.d/conda.sh
 
-if conda activate analogy; then
+if conda activate /u/home/n/njchiang/.conda/envs/analogy; then
     echo "Environment loaded"
 else
     echo "Creating environment"
     conda create -n analogy python=3.7
-    /u/local/apps/anaconda3/bin/activate analogy
+    conda activate analogy
     pip install -r requirements.txt
 fi
