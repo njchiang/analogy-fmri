@@ -27,6 +27,7 @@ prepare-env:
 	touch prepare-env
 
 test: prepare-env
+	conda info --envs
 	. run_tests.sh
 
 # searchlight-mvpa: prepare-env scripts/run_ab_searchlight.py
