@@ -39,6 +39,7 @@ init: prepare-env
 	. /u/local/Modules/default/init/modules.sh; \
 	module load python/anaconda3; \
 	. /u/local/apps/anaconda3/etc/profile.d/conda.sh; \
+	conda init bash; \
 
 .PHONY: activate
 activate: init
