@@ -27,6 +27,7 @@ prepare-env:
 	touch prepare-env
 
 test: prepare-env
+	conda activate analogy
 	conda info --envs
 	. run_tests.sh
 
@@ -36,9 +37,11 @@ test: prepare-env
 preprocess: prepare-env
 
 test-searchlight-mvpa: prepare-env
+	conda activate analogy
 	python analysis/run_searchlight.py -m graymatter-bin_mask -s sub-01 -d
 
 test-searchlight-rsa: prepare-env
+	conda activate analogy
 	python analysis/run_searchlight.py -m graymatter-bin_mask -s sub-01 -a rsa -d
 
 .PHONY: clean
