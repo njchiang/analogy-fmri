@@ -26,19 +26,25 @@ help:
 clean:
 	rm -f test init prepare-env preprocess dummy-setup dummy-files searchlight-mvpa help
 
-.PHONY: init
-init:
+prepare-env: init
 	. /u/local/Modules/default/init/modules.sh; \
 	module load python/anaconda3; \
 	. /u/local/apps/anaconda3/etc/profile.d/conda.sh; \
-
-prepare-env: init
 	. activate.sh; \
 	conda info --envs
 	touch prepare-env
 
-test: prepare-env init
+PHONY: init
+init: prepare-env
+	. /u/local/Modules/default/init/modules.sh; \
+	module load python/anaconda3; \
+	. /u/local/apps/anaconda3/etc/profile.d/conda.sh; \
+
+.PHONY: activate
+activate: init
 	conda activate analogy; \
+
+test: activate
 	. run_tests.sh
 
 # searchlight-mvpa: prepare-env scripts/run_ab_searchlight.py
