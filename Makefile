@@ -28,18 +28,17 @@ clean:
 
 .PHONY: init
 init:
-	. /u/local/Modules/default/init/modules.sh
-	module load python/anaconda3
-	. /u/local/apps/anaconda3/etc/profile.d/conda.sh
-	touch init
+	. /u/local/Modules/default/init/modules.sh; \
+	module load python/anaconda3; \
+	. /u/local/apps/anaconda3/etc/profile.d/conda.sh; \
 
 prepare-env: init
-	. activate.sh
+	. activate.sh; \
+	conda info --envs
 	touch prepare-env
 
-test: init prepare-env
-	conda activate analogy
-	conda info --envs
+test: prepare-env init
+	conda activate analogy; \
 	. run_tests.sh
 
 # searchlight-mvpa: prepare-env scripts/run_ab_searchlight.py
