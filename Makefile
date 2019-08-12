@@ -1,8 +1,9 @@
-.PHONY: help prepare-env test preprocess searchlight-mvpa searchlight-rsa dummy-setup
+.PHONY: help clean init activate test preprocess searchlight-mvpa searchlight-rsa dummy-setup
 
 # ROOT?=/u/project/monti/Analysis/Analogy
 SHELL=/bin/bash
 CONDAROOT=/u/local/apps/anaconda3/bin/activate
+PYTHON=/u/home/n/njchiang/.conda/envs/analogy/bin/python
 ROOT?=/tmp/Analogy
 # DATA?=${ROOT}/data
 # DERIVATIVES?=${ROOT}/derivatives
@@ -22,30 +23,28 @@ help:
 	@echo "make preprocess: run preprocessing"
 	@echo "make dummy-setup: set up dummy environment for testing paths"
 
-.PHONY: clean
 clean:
 	rm -f test init prepare-env preprocess dummy-setup dummy-files searchlight-mvpa help
 
-prepare-env: init
-	. /u/local/Modules/default/init/modules.sh; \
-	module load python/anaconda3; \
-	. /u/local/apps/anaconda3/etc/profile.d/conda.sh; \
+prepare-env: 
 	. activate.sh; \
 	conda info --envs
 	touch prepare-env
 
-PHONY: init
 init: prepare-env
 	. /u/local/Modules/default/init/modules.sh; \
 	module load python/anaconda3; \
 	. /u/local/apps/anaconda3/etc/profile.d/conda.sh; \
 
-.PHONY: activate
 activate: init
 	source activate analogy; \
 
+# test: activate
+# 	source activate analogy; . run_tests.sh
+
 test: activate
-	. run_tests.sh
+	${PYTHON} analysis/test.py
+
 
 # searchlight-mvpa: prepare-env scripts/run_ab_searchlight.py
 
