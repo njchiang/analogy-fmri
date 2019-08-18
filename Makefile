@@ -31,20 +31,10 @@ prepare-env:
 	conda info --envs
 	touch prepare-env
 
-init: prepare-env
-	. /u/local/Modules/default/init/modules.sh; \
-	module load python/anaconda3; \
-	. /u/local/apps/anaconda3/etc/profile.d/conda.sh; \
-
-activate: init
-	source activate analogy; \
-
-# test: activate
-# 	source activate analogy; . run_tests.sh
+activate: prepare-env
 
 test: activate
 	${PYTHON} analysis/test.py
-
 
 # searchlight-mvpa: prepare-env scripts/run_ab_searchlight.py
 
