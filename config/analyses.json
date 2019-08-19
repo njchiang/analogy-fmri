@@ -37,6 +37,16 @@
             "psmg": "juelich-left-IPL-PFm_mask",
             "lag": "juelich-left-IPL-Pga_mask",
             "v1": "aal-v1_mask",
+            "rlpfchobeika": "anat-left-rlpfc-hobeika2016",
+            "rlpfc-power": "anat-left-rlpfc-power2011",
+            "dlpfc-power": "anat-left-dlpfc-power2011",
+            "vlpfc-power": "anat-left-vlpfc-power2011",
+            "spl-power": "anat-left-spl-power2011",
+            "ipl-power": "anat-left-ipl-power2011",
+            "spl_d": "mars-left-SPLd_mask",
+            "spl_e": "mars-left-SPLe_mask",
+            "ipl_d": "mars-left-IPLd_mask",
+            "ipl_e": "mars-left-IPLe_mask",
             "csf": "csf-bin_mask"
         }
     },
