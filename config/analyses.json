@@ -37,7 +37,7 @@
             "psmg": "juelich-left-IPL-PFm_mask",
             "lag": "juelich-left-IPL-Pga_mask",
             "v1": "aal-v1_mask",
-            "rlpfchobeika": "anat-left-rlpfc-hobeika2016",
+            "rlpfc-hobeika": "anat-left-rlpfc-hobeika2016",
             "rlpfc-power": "anat-left-rlpfc-power2011",
             "dlpfc-power": "anat-left-dlpfc-power2011",
             "vlpfc-power": "anat-left-vlpfc-power2011",
