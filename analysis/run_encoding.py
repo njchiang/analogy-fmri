@@ -27,7 +27,7 @@ MAX_CPU = max(1, multiprocessing.cpu_count() // 2)
 FLAGS = flags.FLAGS
 flags.DEFINE_integer("threads", MAX_CPU, "number of cpu threads")
 flags.DEFINE_string("phase", "AB", "phase (AB/CD/CDMatch/CDNoMatch")
-
+flags.DEFINE_boolean("debug", False, "debug mode")
 
 accuracies = pu.load_labels(paths["code"], "labels", "group_accuracy.csv").set_index("Trial")
 
@@ -60,7 +60,8 @@ def run_voxel(v, features, fmri_data):
 
 def main(_):
     maskname = "graymatter-bin_mask"
-
+    if FLAGS.debug:
+        return
     results = {}
     # for sub in ["sub-01", "sub-02"]:
     for sub in projectSettings["subjects"]:
