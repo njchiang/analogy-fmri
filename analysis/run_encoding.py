@@ -12,11 +12,11 @@ from sklearn.linear_model import Ridge
 from joblib import Parallel, delayed
 import multiprocessing
 
-from analysis.fmri.analogy_rsa import \
+from fmri.analogy_rsa import \
 downsample_rdms_df_by_factor, create_models, models_to_df, plotmodels,\
 roi_rdm, run_rsa_dfs, subject_rdms, plot_results
 
-from analysis.fmri.analogy_utils import \
+from fmri.analogy_utils import \
     projectSettings, analysisSettings, contrastSettings, order, \
     pu, pa, pv, compile_models, rsa, save_rois, load_rois, load_betas
 
