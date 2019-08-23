@@ -12,5 +12,5 @@ doc
 
 . ${HOME}/.bashrc
 conda activate fmri
-
-python /u/project/monti/njchiang/code/analogy/analogy-fmri/analysis/run_encoding.py --phase AB
+echo "environment activated"
+python /u/project/monti/njchiang/code/analogy/analogy-fmri/analysis/run_encoding.py --phase=AB
