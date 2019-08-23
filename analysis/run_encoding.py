@@ -64,6 +64,7 @@ def main(_):
     results = {}
     # for sub in ["sub-01", "sub-02"]:
     for sub in projectSettings["subjects"]:
+        logging.info("Starting subject {}".format(sub))
         mask = pu.load_img(paths["root"], "derivatives", sub, "masks", "{}.nii.gz".format(maskname))
         fmri_data, labels, _ = load_betas(projectSettings, sub, t="cope-LSS", center=True, scale=False)
 
@@ -98,4 +99,6 @@ def main(_):
                     os.path.join(paths["root"], "analysis", sub, "encoding", "{}-{}-{}_{}.nii.gz".format(sub, mname, "cope-LSS", FLAGS.phase)))
 
 if __name__ == "__main__":
+    logging.set_verbosity(logging)
+    logging.info("Launching script")
     app.run(main)
