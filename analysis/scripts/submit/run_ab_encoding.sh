@@ -10,6 +10,7 @@ qsub \
 
 doc
 
+echo "Script started"
 . ${HOME}/.bashrc
 conda activate fmri
 echo "environment activated"
