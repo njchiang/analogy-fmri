@@ -14,4 +14,7 @@ echo "Script started"
 . ${HOME}/.bashrc
 conda activate fmri
 echo "environment activated"
-python /u/project/monti/njchiang/code/analogy/analogy-fmri/analysis/run_encoding.py --phase=AB
+returnHere=${PWD}
+cd /u/project/monti/njchiang/code/analogy/analogy-fmri
+python analysis/run_encoding.py --phase=AB
+cd ${returnHere}
