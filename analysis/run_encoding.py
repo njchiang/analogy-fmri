@@ -100,6 +100,6 @@ def main(_):
                     os.path.join(paths["root"], "analysis", sub, "encoding", "{}-{}-{}_{}.nii.gz".format(sub, mname, "cope-LSS", FLAGS.phase)))
 
 if __name__ == "__main__":
-    logging.set_verbosity(logging)
+    logging.set_verbosity(logging.DEBUG)
     logging.info("Launching script")
     app.run(main)
