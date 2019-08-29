@@ -8,7 +8,8 @@ import numpy as np
 from tqdm import tqdm
 import pandas as pd
 from sklearn.linear_model import Ridge
-
+from sklearn.model_selection import GroupKFold, StratifiedKFold, KFold, permutation_test_score, cross_val_score
+from sklearn.metrics import make_scorer
 from joblib import Parallel, delayed
 import multiprocessing
 
@@ -28,6 +29,10 @@ FLAGS = flags.FLAGS
 flags.DEFINE_integer("threads", MAX_CPU, "number of cpu threads")
 flags.DEFINE_string("phase", "AB", "phase (AB/CD/CDMatch/CDNoMatch")
 flags.DEFINE_boolean("debug", False, "debug mode")
+FLAGS.DEFINE_string("cv", "run", "[run/relation/lor]")
+FLAGS.DEFINE_integer("n_folds", 5, "Number of CV folds")
+FLAGS.DEFINE_integer("permutations", 0, "Number of permutations")
+
 
 accuracies = pu.load_labels(paths["code"], "labels", "group_accuracy.csv").set_index("Trial")
 
@@ -50,6 +55,14 @@ w2vd_df = (raw_models_df[::2]
 
 model_names = ["Word2vec-diff", "Word2vec-concat", "BART"]
 
+CV_LIB = {
+    "lor": GroupKFold,
+    "run": StratifiedKFold,
+    "relation": StratifiedKFold
+}
+
+def corrcoef(y, y_pred):
+    return np.corrcoef(y, y_pred)[0, 1]
 
 ## AB Encoding model ##
 def run_voxel(v, features, fmri_data):
@@ -57,6 +70,16 @@ def run_voxel(v, features, fmri_data):
     ridge.fit(features[:144], fmri_data[:144, v])
     yhat = ridge.predict(features[144:])
     return np.corrcoef(fmri_data[144:, v], yhat)[0, 1]
+
+# TODO : incorporate and run
+def run_cv_voxel(v, model, features, fmri_data, cv, groups, scoring, permutations=None):
+    cv_splits = cv.split(features, groups, groups=groups)
+    if permutations:
+        score, _, pvalue = permutation_test_score(model, features, fmri_data[v], groups=groups, scoring=scoring, cv=cv_splits, n_permutations=permutations, n_jobs=1)
+        return score, pvalue
+    else:
+        score = np.mean(cross_val_score(model, features, fmri_data[v], groups=groups, scoring=scoring, cv=cv_splits, n_jobs=1))
+        return score
 
 def main(_):
     maskname = "graymatter-bin_mask"
@@ -90,11 +113,17 @@ def main(_):
         fmri_data = fmri_data[trials.index]
         labels = labels.loc[trials.index]
 
+        cv = CV_LIB.get(FLAGS.cv, KFold)(FLAGS.n_folds)
+        groups = trials["MainRel"] if FLAGS.cv == "relation" else trials["chunks"]
+        model = Ridge()
+        scoring = make_scorer(corrcoef)
+
         results[sub] = {}
         for mname, model_df in zip(model_names, [w2vd_df, w2vc_df, bart_df]):
             logging.info("Running {}".format(mname))
             features = model_df.loc[[tag for tag in labels[tag_key]], :]
-            result = Parallel(n_jobs=MAX_CPU)(delayed(run_voxel)(v, features, fmri_data) for v in range(fmri_data.shape[1]))
+            # result = Parallel(n_jobs=MAX_CPU)(delayed(run_voxel)(v, features, fmri_data) for v in range(fmri_data.shape[1]))
+            result = Parallel(n_jobs=MAX_CPU)(delayed(run_cv_voxel)(v, model, features, fmri_data, cv, groups, scoring, FLAGS.permutations) for v in range(fmri_data.shape[1]))
             result = np.array(result)
             pu.unmask_img(result, mask).to_filename(
                     os.path.join(paths["root"], "analysis", sub, "encoding", "{}-{}-{}_{}.nii.gz".format(sub, mname, "cope-LSS", FLAGS.phase)))

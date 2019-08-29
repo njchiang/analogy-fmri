@@ -16,5 +16,10 @@ conda activate fmri
 echo "environment activated"
 returnHere=${PWD}
 cd /u/project/monti/njchiang/code/analogy/analogy-fmri
-python analysis/run_encoding.py --phase=AB
+python analysis/run_encoding.py \
+  --phase=AB \
+  --cv=relation \
+  --n_folds=5 \
+  --permutations=0 \
+  --threads=16
 cd ${returnHere}
