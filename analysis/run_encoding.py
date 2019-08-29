@@ -75,10 +75,10 @@ def run_voxel(v, features, fmri_data):
 def run_cv_voxel(v, model, features, fmri_data, cv, groups, scoring, permutations=None):
     cv_splits = cv.split(features, groups, groups=groups)
     if permutations:
-        score, _, pvalue = permutation_test_score(model, features, fmri_data[v], groups=groups, scoring=scoring, cv=cv_splits, n_permutations=permutations, n_jobs=1)
+        score, _, pvalue = permutation_test_score(model, features, fmri_data[:, v], groups=groups, scoring=scoring, cv=cv_splits, n_permutations=permutations, n_jobs=1)
         return score, pvalue
     else:
-        score = np.mean(cross_val_score(model, features, fmri_data[v], groups=groups, scoring=scoring, cv=cv_splits, n_jobs=1))
+        score = np.mean(cross_val_score(model, features, fmri_data[:, v], groups=groups, scoring=scoring, cv=cv_splits, n_jobs=1))
         return score
 
 def main(_):
