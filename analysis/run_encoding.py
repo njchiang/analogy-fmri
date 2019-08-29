@@ -29,9 +29,9 @@ FLAGS = flags.FLAGS
 flags.DEFINE_integer("threads", MAX_CPU, "number of cpu threads")
 flags.DEFINE_string("phase", "AB", "phase (AB/CD/CDMatch/CDNoMatch")
 flags.DEFINE_boolean("debug", False, "debug mode")
-FLAGS.DEFINE_string("cv", "run", "[run/relation/lor]")
-FLAGS.DEFINE_integer("n_folds", 5, "Number of CV folds")
-FLAGS.DEFINE_integer("permutations", 0, "Number of permutations")
+flags.DEFINE_string("cv", "run", "[run/relation/lor]")
+flags.DEFINE_integer("n_folds", 5, "Number of CV folds")
+flags.DEFINE_integer("permutations", 0, "Number of permutations")
 
 
 accuracies = pu.load_labels(paths["code"], "labels", "group_accuracy.csv").set_index("Trial")
@@ -126,7 +126,7 @@ def main(_):
             result = Parallel(n_jobs=MAX_CPU)(delayed(run_cv_voxel)(v, model, features, fmri_data, cv, groups, scoring, FLAGS.permutations) for v in range(fmri_data.shape[1]))
             result = np.array(result)
             pu.unmask_img(result, mask).to_filename(
-                    os.path.join(paths["root"], "analysis", sub, "encoding", "{}-{}-{}_{}.nii.gz".format(sub, mname, "cope-LSS", FLAGS.phase)))
+                    os.path.join(paths["root"], "analysis", sub, "encoding", "{}-{}-{}_{}_cv-{}.nii.gz".format(sub, mname, "cope-LSS", FLAGS.phase, FLAGS.cv)))
 
 if __name__ == "__main__":
     logging.set_verbosity(logging.DEBUG)
