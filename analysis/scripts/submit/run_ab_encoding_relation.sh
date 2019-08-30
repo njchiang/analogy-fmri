@@ -19,8 +19,8 @@ cd /u/project/monti/njchiang/code/analogy/analogy-fmri
 python analysis/run_encoding.py \
   --phase=AB \
   --cv=relation \
-  --n_folds=100 \
+  --n_folds=4 \
   --permutations=0 \
   --threads=16
-  # --n_folds=5 \
+  # --n_folds=4 \
 cd ${returnHere}

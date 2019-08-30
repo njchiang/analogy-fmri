@@ -8,7 +8,7 @@ import numpy as np
 from tqdm import tqdm
 import pandas as pd
 from sklearn.linear_model import Ridge
-from sklearn.model_selection import GroupKFold, StratifiedKFold, KFold, permutation_test_score, cross_val_score
+from sklearn.model_selection import GroupKFold, StratifiedKFold, StratifiedShuffleSplit, KFold, permutation_test_score, cross_val_score
 from sklearn.metrics import make_scorer
 from joblib import Parallel, delayed
 import multiprocessing
@@ -30,7 +30,7 @@ flags.DEFINE_integer("threads", MAX_CPU, "number of cpu threads")
 flags.DEFINE_string("phase", "AB", "phase (AB/CD/CDMatch/CDNoMatch")
 flags.DEFINE_boolean("debug", False, "debug mode")
 flags.DEFINE_string("cv", "run", "[run/relation/lor]")
-flags.DEFINE_integer("n_folds", 5, "Number of CV folds")
+flags.DEFINE_integer("n_folds", 4, "Number of CV folds")
 flags.DEFINE_integer("permutations", 0, "Number of permutations")
 
 
@@ -55,10 +55,10 @@ w2vd_df = (raw_models_df[::2]
 
 model_names = ["Word2vec-diff", "Word2vec-concat", "BART"]
 
-CV_LIB = {
+CV_K_LIB = {
     "lor": GroupKFold,
-    "run": StratifiedShuffleSplit,
-    "relation": StratifiedShuffleSplit
+    "run": StratifiedKFold, # StratifiedShuffleSplit,
+    "relation": StratifiedKFold # StratifiedShuffleSplit
 }
 
 def corrcoef(y, y_pred):
