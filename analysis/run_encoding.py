@@ -57,8 +57,8 @@ model_names = ["Word2vec-diff", "Word2vec-concat", "BART"]
 
 CV_LIB = {
     "lor": GroupKFold,
-    "run": StratifiedKFold,
-    "relation": StratifiedKFold
+    "run": StratifiedShuffleSplit,
+    "relation": StratifiedShuffleSplit
 }
 
 def corrcoef(y, y_pred):
