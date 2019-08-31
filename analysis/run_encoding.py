@@ -55,7 +55,7 @@ w2vd_df = (raw_models_df[::2]
 
 model_names = ["Word2vec-diff", "Word2vec-concat", "BART"]
 
-CV_K_LIB = {
+CV_LIB = {
     "lor": GroupKFold,
     "run": StratifiedKFold, # StratifiedShuffleSplit,
     "relation": StratifiedKFold # StratifiedShuffleSplit
