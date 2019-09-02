@@ -114,7 +114,8 @@ def main(_):
         labels = labels.loc[trials.index]
 
         cv = CV_LIB.get(FLAGS.cv, KFold)(FLAGS.n_folds)
-        groups = trials["MainRel"] if FLAGS.cv == "relation" else trials["chunks"]
+        groups = trials["SubRel"] if FLAGS.cv == "relation" else trials["chunks"]
+        # groups = trials["MainRel"] if FLAGS.cv == "relation" else trials["chunks"]
         model = Ridge()
         scoring = make_scorer(corrcoef)
 
@@ -126,7 +127,7 @@ def main(_):
             result = Parallel(n_jobs=MAX_CPU)(delayed(run_cv_voxel)(v, model, features, fmri_data, cv, groups, scoring, FLAGS.permutations) for v in range(fmri_data.shape[1]))
             result = np.array(result)
             pu.unmask_img(result, mask).to_filename(
-                    os.path.join(paths["root"], "analysis", sub, "encoding", "{}-{}-{}_{}_cv-{}.nii.gz".format(sub, mname, "cope-LSS", FLAGS.phase, FLAGS.cv)))
+                    os.path.join(paths["root"], "analysis", sub, "encoding", "{}_{}_{}_{}_cv-{}.nii.gz".format(sub, mname, "cope-LSS", FLAGS.phase, FLAGS.cv)))
 
 if __name__ == "__main__":
     logging.set_verbosity(logging.DEBUG)
