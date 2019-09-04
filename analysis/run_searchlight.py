@@ -25,7 +25,7 @@ flags.DEFINE_string("mask", None, "mask")
 flags.DEFINE_string("sub", None, "subject")
 flags.DEFINE_string("analysis", "cvsl", "analysis type")
 flags.DEFINE_integer("radius", None, "SL radius")
-flags.DEFINE_integer("verbosity", None, "searchlight verbosity")
+flags.DEFINE_integer("verbose", None, "searchlight verbosity")
 
 def main(_):
     import getopt
@@ -38,7 +38,7 @@ def main(_):
     if FLAGS.jobs:
         analysisSettings["searchlight"]["n_jobs"] = int(FLAGS.jobs)
     if FLAGS.verbosity:
-        analysisSettings["searchlight"]["verbose"] = int(FLAGS.verbosity)
+        analysisSettings["searchlight"]["verbose"] = int(FLAGS.verbose)
     if FLAGS.radius:
         analysisSettings["searchlight"]["radius"] = int(FLAGS.radius)
     # if not con:
