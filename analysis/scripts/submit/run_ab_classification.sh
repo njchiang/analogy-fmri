@@ -22,7 +22,7 @@ do
     python analysis/run_searchlight.py \
         --analysis=cvsl \
         --phase=AB \
-        --mask=graymatter-bin_mask
+        --mask=graymatter-bin_mask \
         --sub=${s}
 done
 
