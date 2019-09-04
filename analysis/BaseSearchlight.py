@@ -30,7 +30,7 @@ class CVSearchlight:
         self.fmri_data, self.labels, self.bg_image = load_betas(projectSettings, sub, t="cope-LSS", logger=logger)
         self.select_data(phase, phase_equals, phase_val)
         self.init_sl(settings)
-        self.outpath = os.path.join(paths["root"], "analysis", sub, "multivariate", "searchlight", "mvpa", "{}_{}-cvsl.nii.gz".format(sub, phase))
+        self.outpath = os.path.join(paths["root"], "analysis", sub, "multivariate", "searchlight", "{}_{}-cvsl.nii.gz".format(sub, phase))
 
     def select_data(self, phase="AB", equals=True, val=1):
         if equals:
@@ -63,7 +63,7 @@ class CVSearchlight:
 class RSASearchlight(CVSearchlight):
     def __init__(self, sub, mask_file=None, settings=analysisSettings["searchlight"], phase="AB", logger=None, phase_equals=True, phase_val=1):
         super(RSASearchlight, self).__init__(sub, mask_file, settings=settings, phase=phase, logger=logger, phase_equals=phase_equals, phase_val=phase_val)
-        self.outpath = os.path.join(paths["root"], "analysis", sub, "multivariate", "searchlight", "rsa", "{}_{}-rsa.nii.gz".format(sub, phase))
+        self.outpath = os.path.join(paths["root"], "analysis", sub, "multivariate", "searchlight", "{}_{}-rsa.nii.gz".format(sub, phase))
 
     def select_data(self, phase="AB", equals=True, val=1):
         # will be a little more complex
