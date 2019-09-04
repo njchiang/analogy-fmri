@@ -5,48 +5,42 @@ import os
 from datetime import datetime
 # import pandas as pd
 import numpy as np
+from absl import flags
+from absl import logging
+from absl import app
+import multiprocessing
 
 from BaseSearchlight import CVSearchlight, RSASearchlight
 
 from fmri.analogy_utils import analysisSettings, pu, PATHS
 from fmri.analogy_rsa import get_model_rdms
 paths = PATHS
+MAX_CPU = max(1, multiprocessing.cpu_count() // 2)
 
-def main(argv):
+FLAGS = flags.FLAGS
+flags.DEFINE_boolean("debug", False, "debug mode")
+flags.DEFINE_integer("jobs", MAX_CPU, "number of cpu threads")
+flags.DEFINE_string("phase", "AB", "phase (AB/CD/CDMatch/CDNoMatch")
+flags.DEFINE_string("mask", None, "mask")
+flags.DEFINE_string("sub", None, "subject")
+flags.DEFINE_string("analysis", "cvsl", "analysis type")
+flags.DEFINE_integer("radius", None, "SL radius")
+flags.DEFINE_integer("verbosity", None, "searchlight verbosity")
+
+def main(_):
     import getopt
     # every possible variable
-    roi = None
-    sub = None
-    phase = "AB"
-    debug = False
-    analysis = "cvsl"
-    try:
-        # figure out this line
-        opts, args = getopt.getopt(argv, "h:m:s:p:j:v:r:t:a:d",
-                                   ["help", "mask=", "sub=", "phase=", "jobs=", "verbose=", "radius=", "analysis", "debug"])
-    except getopt.GetoptError:
-        print('run_mvpa_searchlight.py -m <maskfile> -s <sub>')
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt in ('-h', "--help"):
-            print('run_mvpa_searchlight.py -m <maskfile> -p <phase> -s <sub>')
-            sys.exit()
-        elif opt in ("-d", "--debug"):
-            debug = True
-        elif opt in ("-a", "--analysis"):
-            analysis = arg
-        elif opt in ("-m", "--mask"):
-            roi = arg
-        elif opt in ("-s", "--sub"):
-            sub = arg
-        elif opt in ("-p", "--phase"):
-            phase = arg
-        elif opt in ("-j", "--jobs"):
-            analysisSettings["searchlight"]["n_jobs"] = int(arg)
-        elif opt in ("-v", "--verbose"):
-            analysisSettings["searchlight"]["verbose"] = int(arg)
-        elif opt in ("-r", "--radius"):
-            analysisSettings["searchlight"]["radius"] = int(arg)
+    roi = FLAGS.mask
+    sub = FLAGS.sub
+    phase = FLAGS.phase
+    debug = FLAGS.debug
+    analysis = FLAGS.analysis
+    if FLAGS.jobs:
+        analysisSettings["searchlight"]["n_jobs"] = int(FLAGS.jobs)
+    if FLAGS.verbosity:
+        analysisSettings["searchlight"]["verbose"] = int(FLAGS.verbosity)
+    if FLAGS.radius:
+        analysisSettings["searchlight"]["radius"] = int(FLAGS.radius)
     # if not con:
     #     print "not a valid contrast... exiting"
     #     sys.exit(1)
@@ -83,4 +77,4 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    app.run(main)
