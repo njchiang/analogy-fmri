@@ -59,10 +59,10 @@ def main(_):
         pu.write_to_logger("Running RSA", logger)
         modelnames = [
             "mainrel", "rel",
-            "numchar", "humanratings", "typicality"
+            "numchar", "humanratings", 
             "w2vdiff", "concatword",
             "rstpostprob9", "rstpostprob79"]
-        raw_models_df = pu.load_labels("labels/raw_models.csv")
+        raw_models_df = pu.load_labels(os.path.join(paths["code"], "labels/raw_models.csv"))
         model_rdms = get_model_rdms(raw_models_df, modelnames)
         modelrdms = model_rdms[(model_rdms.type == "full")].dropna(axis=1).values[:, 2:]
         sl = RSASearchlight(sub, mask_file, phase=phase, settings=analysisSettings["searchlight"], logger=logger)
