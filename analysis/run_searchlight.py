@@ -15,7 +15,8 @@ from BaseSearchlight import CVSearchlight, RSASearchlight
 from fmri.analogy_utils import analysisSettings, pu, PATHS
 from fmri.analogy_rsa import get_model_rdms
 paths = PATHS
-MAX_CPU = max(1, multiprocessing.cpu_count() // 2)
+# MAX_CPU = max(1, multiprocessing.cpu_count() // 2)
+MAX_CPU = max(1, multiprocessing.cpu_count() - 1)
 
 FLAGS = flags.FLAGS
 flags.DEFINE_boolean("debug", False, "debug mode")
@@ -59,12 +60,12 @@ def main(_):
         pu.write_to_logger("Running RSA", logger)
         modelnames = [
             "mainrel", "rel",
-            "numchar", "humanratings", 
+            "numchar", "humanratings", "typicality",
             "w2vdiff", "concatword",
             "rstpostprob9", "rstpostprob79"]
         raw_models_df = pu.load_labels(os.path.join(paths["code"], "labels/raw_models.csv"))
         model_rdms = get_model_rdms(raw_models_df, modelnames)
-        modelrdms = model_rdms[(model_rdms.type == "full")].dropna(axis=1).values[:, 2:]
+        modelrdms = model_rdms[(model_rdms.type == "full")].dropna(axis=1).values[:, 2:].astype(np.float64)
         sl = RSASearchlight(sub, mask_file, phase=phase, settings=analysisSettings["searchlight"], logger=logger)
         slargs = {"modelrdms": modelrdms}
     else:
