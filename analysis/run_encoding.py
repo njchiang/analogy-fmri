@@ -127,9 +127,6 @@ def main(_):
         results[sub] = {}
 
 
-        if FLAGS.betas:
-
-        if FLAGS.cv:
         for mname, model_df in zip(model_names, [w2vd_df, w2vc_df, bart_df]):
             logging.info("Running {}".format(mname))
             features = model_df.loc[[tag for tag in labels[tag_key]], :]
