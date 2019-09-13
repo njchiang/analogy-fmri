@@ -141,7 +141,7 @@ def main(_):
                 val_features = model_df.loc[[tag for tag in val_labels["CDTag"]], :]
                 results = Parallel(n_jobs=MAX_CPU)(delayed(get_betas)(v, model, features, fmri_data, val_features, val_fmri_data) for v in range(fmri_data.shape[1]))
                 result, preds = list(zip(*results))
-                np.array(result).T
+                result = np.array(result).T
                 pu.unmask_img(result, mask).to_filename(
                         os.path.join(paths["root"], "analysis", sub, "encoding", "{}_{}_{}_{}_encoding-betas.nii.gz".format(sub, mname, "cope-LSS", FLAGS.phase)))
                 preds = np.array(preds)
