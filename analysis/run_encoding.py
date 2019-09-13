@@ -85,7 +85,7 @@ def run_cv_voxel(v, model, features, fmri_data, cv, groups, scoring, permutation
 def get_betas(v, model, features, fmri_data, pred_features, pred_fmri_data):
     model.fit(features, fmri_data[:, v])
     yhat = model.predict(pred_features)
-    return model.coef_, np.corrcoef(pred_fmri_data, yhat)[0, 1]
+    return model.coef_, np.corrcoef(pred_fmri_data[:, v], yhat)[0, 1]
 
 def main(_):
     maskname = "graymatter-bin_mask"
