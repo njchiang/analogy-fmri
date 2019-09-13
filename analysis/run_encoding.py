@@ -28,8 +28,9 @@ MAX_CPU = max(1, multiprocessing.cpu_count() // 2)
 FLAGS = flags.FLAGS
 flags.DEFINE_integer("threads", MAX_CPU, "number of cpu threads")
 flags.DEFINE_string("phase", "AB", "phase (AB/CD/CDMatch/CDNoMatch")
+flags.DEFINE_boolean("betas", False, "output betas only")
 flags.DEFINE_boolean("debug", False, "debug mode")
-flags.DEFINE_string("cv", "run", "[run/relation/lor]")
+flags.DEFINE_string("cv", None, "[run/relation/lor]")
 flags.DEFINE_integer("n_folds", 4, "Number of CV folds")
 flags.DEFINE_integer("permutations", 0, "Number of permutations")
 
@@ -81,6 +82,10 @@ def run_cv_voxel(v, model, features, fmri_data, cv, groups, scoring, permutation
         score = np.mean(cross_val_score(model, features, fmri_data[:, v], groups=groups, scoring=scoring, cv=cv_splits, n_jobs=1))
         return score
 
+def get_betas(v, model, features, fmri_data):
+    model.fit(features, fmri_data[:, v])
+    return model.coef_
+
 def main(_):
     maskname = "graymatter-bin_mask"
     if FLAGS.debug:
@@ -120,14 +125,26 @@ def main(_):
         scoring = make_scorer(corrcoef)
 
         results[sub] = {}
+
+
+        if FLAGS.betas:
+
+        if FLAGS.cv:
         for mname, model_df in zip(model_names, [w2vd_df, w2vc_df, bart_df]):
             logging.info("Running {}".format(mname))
             features = model_df.loc[[tag for tag in labels[tag_key]], :]
             # result = Parallel(n_jobs=MAX_CPU)(delayed(run_voxel)(v, features, fmri_data) for v in range(fmri_data.shape[1]))
-            result = Parallel(n_jobs=MAX_CPU)(delayed(run_cv_voxel)(v, model, features, fmri_data, cv, groups, scoring, FLAGS.permutations) for v in range(fmri_data.shape[1]))
-            result = np.array(result)
-            pu.unmask_img(result, mask).to_filename(
-                    os.path.join(paths["root"], "analysis", sub, "encoding", "{}_{}_{}_{}_cv-{}.nii.gz".format(sub, mname, "cope-LSS", FLAGS.phase, FLAGS.cv)))
+            if FLAGS.betas:
+                result = Parallel(n_jobs=MAX_CPU)(delayed(get_betas)(v, model, features, fmri_data) for v in range(fmri_data.shape[1]))
+                result = np.array(result)
+                pu.unmask_img(result, mask).to_filename(
+                        os.path.join(paths["root"], "analysis", sub, "encoding", "{}_{}_{}_{}_encoding-betas.nii.gz".format(sub, mname, "cope-LSS", FLAGS.phase, FLAGS.cv)))
+            
+            if FLAGS.cv:
+                result = Parallel(n_jobs=MAX_CPU)(delayed(run_cv_voxel)(v, model, features, fmri_data, cv, groups, scoring, FLAGS.permutations) for v in range(fmri_data.shape[1]))
+                result = np.array(result)
+                pu.unmask_img(result, mask).to_filename(
+                        os.path.join(paths["root"], "analysis", sub, "encoding", "{}_{}_{}_{}_cv-{}.nii.gz".format(sub, mname, "cope-LSS", FLAGS.phase, FLAGS.cv)))
 
 if __name__ == "__main__":
     logging.set_verbosity(logging.DEBUG)
