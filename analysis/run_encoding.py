@@ -91,7 +91,6 @@ def main(_):
     maskname = "graymatter-bin_mask"
     if FLAGS.debug:
         return
-    results = {}
     # for sub in ["sub-01", "sub-02"]:
     for sub in projectSettings["subjects"]:
         logging.info("Starting subject {}".format(sub))
@@ -129,9 +128,6 @@ def main(_):
         # groups = trials["MainRel"] if FLAGS.cv == "relation" else trials["chunks"]
         model = Ridge()
         scoring = make_scorer(corrcoef)
-
-        results[sub] = {}
-
 
         for mname, model_df in zip(model_names, [w2vd_df, w2vc_df, bart_df]):
             logging.info("Running {}".format(mname))
