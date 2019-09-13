@@ -82,9 +82,10 @@ def run_cv_voxel(v, model, features, fmri_data, cv, groups, scoring, permutation
         score = np.mean(cross_val_score(model, features, fmri_data[:, v], groups=groups, scoring=scoring, cv=cv_splits, n_jobs=1))
         return score
 
-def get_betas(v, model, features, fmri_data):
+def get_betas(v, model, features, fmri_data, pred_features, pred_fmri_data):
     model.fit(features, fmri_data[:, v])
-    return model.coef_
+    yhat = model.predict(pred_features)
+    return model.coef_, np.corrcoef(pred_fmri_data, yhat)[0, 1]
 
 def main(_):
     maskname = "graymatter-bin_mask"
@@ -113,6 +114,11 @@ def main(_):
 
         fmri_data = pu.mask_img(fmri_data, mask)
 
+        if FLAGS.betas:
+            val_trials = labels[labels.CD==1]
+            val_fmri_data = fmri_data[val_trials.index]
+            val_labels = labels.loc[val_trials.index]
+
         trials = labels[selector]
 
         fmri_data = fmri_data[trials.index]
@@ -132,11 +138,16 @@ def main(_):
             features = model_df.loc[[tag for tag in labels[tag_key]], :]
             # result = Parallel(n_jobs=MAX_CPU)(delayed(run_voxel)(v, features, fmri_data) for v in range(fmri_data.shape[1]))
             if FLAGS.betas:
-                result = Parallel(n_jobs=MAX_CPU)(delayed(get_betas)(v, model, features, fmri_data) for v in range(fmri_data.shape[1]))
-                result = np.array(result)
+                val_features = model_df.loc[[tag for tag in val_labels["CDTag"]], :]
+                results = Parallel(n_jobs=MAX_CPU)(delayed(get_betas)(v, model, features, fmri_data, val_features, val_fmri_data) for v in range(fmri_data.shape[1]))
+                result, preds = list(zip(*results))
+                np.array(result).T
                 pu.unmask_img(result, mask).to_filename(
-                        os.path.join(paths["root"], "analysis", sub, "encoding", "{}_{}_{}_{}_encoding-betas.nii.gz".format(sub, mname, "cope-LSS", FLAGS.phase, FLAGS.cv)))
-            
+                        os.path.join(paths["root"], "analysis", sub, "encoding", "{}_{}_{}_{}_encoding-betas.nii.gz".format(sub, mname, "cope-LSS", FLAGS.phase)))
+                preds = np.array(preds)
+                pu.unmask_img(preds, mask).to_filename(
+                        os.path.join(paths["root"], "analysis", sub, "encoding", "{}_{}_{}_{}_pred-CD.nii.gz".format(sub, mname, "cope-LSS", FLAGS.phase)))
+
             if FLAGS.cv:
                 result = Parallel(n_jobs=MAX_CPU)(delayed(run_cv_voxel)(v, model, features, fmri_data, cv, groups, scoring, FLAGS.permutations) for v in range(fmri_data.shape[1]))
                 result = np.array(result)
