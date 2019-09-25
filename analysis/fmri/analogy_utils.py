@@ -91,8 +91,6 @@ def compile_models(write=False):
         mat_concatword[wordpair] = concatword["concwordmat"].astype(np.float)[ci]
         mat_rstpostprob9[wordpair] = rstpostprob9["rstpostprob_sm"].astype(np.float)[i]
         mat_rstpostprob79[wordpair] = rstpostprob79["rstpostprob"].astype(np.float)[i]
-        mat_rstpostprob79norm[wordpair] = rstpostprob79norm["pred_prob"].astype(np.float)[i]
-        mat_rstpostprob79power[wordpair] = rstpostprob79power["pred_prob"].astype(np.float)[i]
         mat_humanratings[wordpair] = humanratings[humanratings.wordpair == wordpair].values[0, 1:].astype(np.float)
         mat_typicality[wordpair] = typicality[typicality.wordpair == wordpair].values[0, 1:].astype(np.float)
         mat_w2v[wordpair] = w2vdiffs[w2vdiffs.wordpair == wordpair].values[0, 1:].astype(np.float)
@@ -107,12 +105,18 @@ def compile_models(write=False):
                                        mat_mainrel[wordpair][2]])
         mat_intuit[wordpair] = np.hstack([mat_sem[wordpair],
                                           mat_rel[wordpair]])
+    for i in range(len(rstpostprob79norm["wordpairname"])):
+        wordpair = rstpostprob79norm["wordpairname"][i, 0][0]
+        mat_rstpostprob79norm[wordpair] = rstpostprob79norm["pred_prob"].astype(np.float)[i]
+        mat_rstpostprob79power[wordpair] = rstpostprob79power["pred_prob"].astype(np.float)[i]
+
+
     models = {
           "wordpairs": wordpairs,
           "humanratings": mat_humanratings,
           "rstpostprob79": mat_rstpostprob79,
-          "rstpostprob79norm": mat_rstpostprob79norm,
-          "rstpostprob79power": mat_rstpostprob79power,
+          "rstpostprob79": mat_rstpostprob79,
+          "rstpostprob79": mat_rstpostprob79,
           "rstpostprob9": mat_rstpostprob9,
           "w2vdiff": mat_w2v,
           "mainrel": mat_mainrel,
