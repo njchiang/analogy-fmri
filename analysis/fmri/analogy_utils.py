@@ -65,9 +65,13 @@ def compile_models(write=False):
     humanratings = pu.load_labels(os.path.join("labels", "humanratings.csv"), skiprows=2)
     rstpostprob9 = pu.load_mat_data(os.path.join("labels", "rstpostprob9.mat"))
     rstpostprob79 = pu.load_mat_data(os.path.join("labels", "rstpostprob79.mat"))
+    rstpostprob79norm = pu.load_mat_data(os.path.join("labels", "rstBART79norm.mat"))
+    rstpostprob79power = pu.load_mat_data(os.path.join("labels", "rstBART79normpower.mat"))
     concatword = pu.load_mat_data(os.path.join("labels", "w2vconcat.mat"))
     mat_concatword = {}
     mat_rstpostprob79 = {}
+    mat_rstpostprob79norm = {}
+    mat_rstpostprob79power = {}
     mat_humanratings = {}
     mat_rstpostprob9 = {}
     mat_mainrel = {}
@@ -87,6 +91,8 @@ def compile_models(write=False):
         mat_concatword[wordpair] = concatword["concwordmat"].astype(np.float)[ci]
         mat_rstpostprob9[wordpair] = rstpostprob9["rstpostprob_sm"].astype(np.float)[i]
         mat_rstpostprob79[wordpair] = rstpostprob79["rstpostprob"].astype(np.float)[i]
+        mat_rstpostprob79norm[wordpair] = rstpostprob79norm["pred_prob"].astype(np.float)[i]
+        mat_rstpostprob79power[wordpair] = rstpostprob79power["pred_prob"].astype(np.float)[i]
         mat_humanratings[wordpair] = humanratings[humanratings.wordpair == wordpair].values[0, 1:].astype(np.float)
         mat_typicality[wordpair] = typicality[typicality.wordpair == wordpair].values[0, 1:].astype(np.float)
         mat_w2v[wordpair] = w2vdiffs[w2vdiffs.wordpair == wordpair].values[0, 1:].astype(np.float)
@@ -105,6 +111,8 @@ def compile_models(write=False):
           "wordpairs": wordpairs,
           "humanratings": mat_humanratings,
           "rstpostprob79": mat_rstpostprob79,
+          "rstpostprob79norm": mat_rstpostprob79norm,
+          "rstpostprob79power": mat_rstpostprob79power,
           "rstpostprob9": mat_rstpostprob9,
           "w2vdiff": mat_w2v,
           "mainrel": mat_mainrel,
