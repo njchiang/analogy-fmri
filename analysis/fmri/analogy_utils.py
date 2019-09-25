@@ -65,8 +65,8 @@ def compile_models(write=False):
     humanratings = pu.load_labels(os.path.join("labels", "humanratings.csv"), skiprows=2)
     rstpostprob9 = pu.load_mat_data(os.path.join("labels", "rstpostprob9.mat"))
     rstpostprob79 = pu.load_mat_data(os.path.join("labels", "rstpostprob79.mat"))
-    rstpostprob79norm = pu.load_mat_data(os.path.join("labels", "rstBART79norm.mat"))
-    rstpostprob79power = pu.load_mat_data(os.path.join("labels", "rstBART79normpower.mat"))
+    rstpostprob79norm = pu.load_mat_data(os.path.join("labels", "rst.BART79norm.mat"))
+    rstpostprob79power = pu.load_mat_data(os.path.join("labels", "rst.BART79normpower.mat"))
     concatword = pu.load_mat_data(os.path.join("labels", "w2vconcat.mat"))
     mat_concatword = {}
     mat_rstpostprob79 = {}
