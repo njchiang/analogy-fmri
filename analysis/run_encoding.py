@@ -39,29 +39,34 @@ accuracies = pu.load_labels(paths["code"], "labels", "group_accuracy.csv").set_i
 
 raw_models_df = pu.load_labels(os.path.join(paths["code"], "labels", "raw_models.csv"))
 
-bartpower_df = (raw_models_df[::2]
+# bartpower_df = (raw_models_df[::2]
+bartpower_df = (raw_models_df
             .reset_index(drop=True)
             .set_index("ABTag")[
                 [c for c in raw_models_df.columns if "bart79power" in c]
             ])
 
-bartnorm_df = (raw_models_df[::2]
+# bartnorm_df = (raw_models_df[::2]
+bartnorm_df = (raw_models_df
             .reset_index(drop=True)
             .set_index("ABTag")[
                 [c for c in raw_models_df.columns if "bart79norm" in c]
             ])
 
-bart_df = (raw_models_df[::2]
+# bart_df = (raw_models_df[::2]
+bart_df = (raw_models_df
             .reset_index(drop=True)
             .set_index("ABTag")[
                 [c for c in raw_models_df.columns if "rstpostprob79" in c]])
 
-w2vc_df = (raw_models_df[::2]
+# w2vc_df = (raw_models_df[::2]
+w2vc_df = (raw_models_df
             .reset_index(drop=True)
             .set_index("ABTag")[
                 [c for c in raw_models_df.columns if "concatword" in c]])
 
-w2vd_df = (raw_models_df[::2]
+# w2vd_df = (raw_models_df[::2]
+w2vd_df = (raw_models_df
             .reset_index(drop=True)
             .set_index("ABTag")[
                 [c for c in raw_models_df.columns if "w2vdiff" in c]])
