@@ -7,7 +7,7 @@ from absl import app
 import numpy as np
 from tqdm import tqdm
 import pandas as pd
-from sklearn.linear_model import Ridge
+from sklearn.linear_model import Ridge, ElasticNet
 from sklearn.model_selection import GroupKFold, StratifiedKFold, StratifiedShuffleSplit, KFold, permutation_test_score, cross_val_score
 from sklearn.metrics import make_scorer
 from joblib import Parallel, delayed
@@ -143,7 +143,8 @@ def main(_):
         cv = CV_LIB.get(FLAGS.cv, KFold)(FLAGS.n_folds)
         groups = trials["SubRel"] if FLAGS.cv == "relation" else trials["chunks"]
         # groups = trials["MainRel"] if FLAGS.cv == "relation" else trials["chunks"]
-        model = Ridge()
+        # model = Ridge(alpha=0.1)
+        model = ElasticNet(alpha=0.1)
         scoring = make_scorer(corrcoef)
 
         for mname, model_df in zip(model_names, [w2vd_df, w2vc_df, bart_df, bartnorm_df, bartpower_df]):
