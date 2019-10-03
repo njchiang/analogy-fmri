@@ -153,7 +153,8 @@ def main(_):
             labels = labels.loc[trials.index]
 
         cv = CV_LIB.get(FLAGS.cv, KFold)(FLAGS.n_folds)
-        groups = trials["SubRel"] if FLAGS.cv == "relation" else trials["chunks"]
+        # groups = trials["SubRel"] if FLAGS.cv == "relation" else trials["chunks"]
+        groups = labels["SubRel"] if FLAGS.cv == "relation" else labels["chunks"]
         # groups = trials["MainRel"] if FLAGS.cv == "relation" else trials["chunks"]
         # model = Ridge(alpha=0.1)
         model = ElasticNet(alpha=0.1)
