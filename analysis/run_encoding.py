@@ -33,6 +33,7 @@ flags.DEFINE_boolean("debug", False, "debug mode")
 flags.DEFINE_string("cv", None, "[run/relation/lor]")
 flags.DEFINE_integer("n_folds", 4, "Number of CV folds")
 flags.DEFINE_integer("permutations", 0, "Number of permutations")
+flags.DEFINE_boolean("average", True, "Average betas")
 
 
 accuracies = pu.load_labels(paths["code"], "labels", "group_accuracy.csv").set_index("Trial")
@@ -132,13 +133,24 @@ def main(_):
 
         if FLAGS.betas:
             val_trials = labels[labels.CD==1]
-            val_fmri_data = fmri_data[val_trials.index]
-            val_labels = labels.loc[val_trials.index]
+            if FLAGS.average:
+                val_trials = val_trials.sort_values(tag_key)
+                val_fmri_data = fmri_data[val_trials.index]
+                val_fmri_data = (val_fmri_data[::2] + val_fmri_data[1::2]) / 2
+                val_trials = val_trials.iloc[::2]
+            else:
+                val_fmri_data = fmri_data[val_trials.index]
+                val_labels = labels.loc[val_trials.index]
 
         trials = labels[selector]
-
-        fmri_data = fmri_data[trials.index]
-        labels = labels.loc[trials.index]
+        if FLAGS.average:
+            trials = trials.sort_values(tag_key)
+            fmri_data = fmri_data[trials.index]
+            fmri_data = (fmri_data[::2] + fmri_data[1::2]) / 2
+            labels = trials.iloc[::2]
+        else:
+            fmri_data = fmri_data[trials.index]
+            labels = labels.loc[trials.index]
 
         cv = CV_LIB.get(FLAGS.cv, KFold)(FLAGS.n_folds)
         groups = trials["SubRel"] if FLAGS.cv == "relation" else trials["chunks"]
