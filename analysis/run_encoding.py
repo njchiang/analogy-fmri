@@ -137,7 +137,7 @@ def main(_):
                 val_trials = val_trials.sort_values(tag_key)
                 val_fmri_data = fmri_data[val_trials.index]
                 val_fmri_data = (val_fmri_data[::2] + val_fmri_data[1::2]) / 2
-                val_trials = val_trials.iloc[::2]
+                val_labels = val_trials.iloc[::2]
             else:
                 val_fmri_data = fmri_data[val_trials.index]
                 val_labels = labels.loc[val_trials.index]
