@@ -73,19 +73,23 @@ def create_models(models, modelnames):
 
         this_rdm = get_model_rdm(models, model, metric)
         stacked_models_full.append(this_rdm)
-        stacked_models_avg.append(
-            rsa.squareform(
-                reduce_by_factor(this_rdm, 2), checks=False
-            )
-        )
+        # Same as full
+        stacked_models_avg.append(this_rdm)
+        # stacked_models_avg.append(
+        #     rsa.squareform(
+        #         reduce_by_factor(this_rdm, 2), checks=False
+        #     )
+        # )
         stacked_models_subrel.append(
             rsa.squareform(
-                reduce_by_factor(this_rdm, 4), checks=False
+                reduce_by_factor(this_rdm, 2), checks=False
+                # reduce_by_factor(this_rdm, 4), checks=False
             )
         )
         stacked_models_9rel.append(
             rsa.squareform(
-                reduce_by_factor(this_rdm, 32), checks=False
+                reduce_by_factor(this_rdm, 16), checks=False
+                # reduce_by_factor(this_rdm, 32), checks=False
             )
         )
 
