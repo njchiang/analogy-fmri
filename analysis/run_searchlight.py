@@ -106,7 +106,10 @@ def main(_):
         sl = RSASearchlight(sub, mask_file, phase=phase, settings=analysisSettings["searchlight"], logger=logger)
 
         if FLAGS.phase == "CD":
-            modelrdms, modelnames = get_cd_models(raw_models_df, sl.labels[(sl.selector.Match == '1')])
+            sl.fmri_data = pu.index_img(sl.fmri_data, sl.selector.Match == '1')
+            sl.labels = sl.labels[sl.selector.Match == '1']
+            sl.selector = sl.labels
+            modelrdms, modelnames = get_cd_models(raw_models_df, sl.labels)
         else:
             modelnames = [
                 "mainrel", "rel",
