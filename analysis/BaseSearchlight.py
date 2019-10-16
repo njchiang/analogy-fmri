@@ -38,6 +38,7 @@ class CVSearchlight:
         else:
             self.selector = self.labels[self.labels[phase] != val]
         self.fmri_data = pu.index_img(self.fmri_data, self.selector.index)
+        self.labels = self.labels.loc[self.selector.index]
 
     def init_sl(self, settings):
         settings["estimator"] = Pipeline(steps=[  # (
@@ -72,6 +73,7 @@ class RSASearchlight(CVSearchlight):
         else:
             self.selector = self.labels[self.labels[phase] != val]
         self.fmri_data = pu.index_img(self.fmri_data, self.selector.index)
+        self.labels = self.labels.loc[self.selector.index]
 
     def init_sl(self, settings):
         settings["rdm_metric"] = "correlation"
