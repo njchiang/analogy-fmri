@@ -120,7 +120,7 @@ def compile_models(write=False):
           "rstpostprob79": mat_rstpostprob79,
           "rstpostprob79norm": mat_rstpostprob79norm,
           "rstpostprob79power": mat_rstpostprob79power,
-          "rstpostprob279": mat_rstpostprob270,
+          "rstpostprob270": mat_rstpostprob270,
           "rstpostprob9": mat_rstpostprob9,
           "w2vdiff": mat_w2v,
           "mainrel": mat_mainrel,
