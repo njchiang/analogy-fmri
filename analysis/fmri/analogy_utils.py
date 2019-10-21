@@ -107,7 +107,7 @@ def compile_models(write=False):
         mat_intuit[wordpair] = np.hstack([mat_sem[wordpair],
                                           mat_rel[wordpair]])
     
-    mat_rstpostprob270 = {wordpair: rstpostprob270["pred_prob_pos1temp"][0][0][i] for i, wordpair in enumerate(rstpostprob270["all_test_names"])}
+    mat_rstpostprob270 = {wordpair[0][0]: rstpostprob270["pred_prob_pos1temp"][0][0][i] for i, wordpair in enumerate(rstpostprob270["all_test_names"])}
     for i in range(len(rstpostprob79norm["wordpairname"])):
         wordpair = rstpostprob79norm["wordpairname"][i, 0][0]
         mat_rstpostprob79norm[wordpair] = rstpostprob79norm["pred_prob"].astype(np.float)[i]
