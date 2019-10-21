@@ -41,6 +41,13 @@ accuracies = pu.load_labels(paths["code"], "labels", "group_accuracy.csv").set_i
 raw_models_df = pu.load_labels(os.path.join(paths["code"], "labels", "raw_models.csv"))
 
 # bartpower_df = (raw_models_df[::2]
+bart270_df = (raw_models_df
+            .reset_index(drop=True)
+            .set_index("ABTag")[
+                [c for c in raw_models_df.columns if "rstpostprob270" in c]
+            ])
+
+# bartpower_df = (raw_models_df[::2]
 bartpower_df = (raw_models_df
             .reset_index(drop=True)
             .set_index("ABTag")[
@@ -72,7 +79,7 @@ w2vd_df = (raw_models_df
             .set_index("ABTag")[
                 [c for c in raw_models_df.columns if "w2vdiff" in c]])
 
-model_names = ["Word2vec-diff", "Word2vec-concat", "BART", "BARTnorm", "BARTpower"]
+model_names = ["Word2vec-diff", "Word2vec-concat", "BART", "BARTnorm", "BARTpower", "BART270"]
 
 CV_LIB = {
     "lor": GroupKFold,
@@ -160,7 +167,7 @@ def main(_):
         model = ElasticNet(alpha=0.1)
         scoring = make_scorer(corrcoef)
 
-        for mname, model_df in zip(model_names, [w2vd_df, w2vc_df, bart_df, bartnorm_df, bartpower_df]):
+        for mname, model_df in zip(model_names, [w2vd_df, w2vc_df, bart_df, bartnorm_df, bartpower_df, bart270_df]):
             logging.info("Running {}".format(mname))
             features = model_df.loc[[tag for tag in labels[tag_key]], :]
             # result = Parallel(n_jobs=MAX_CPU)(delayed(run_voxel)(v, features, fmri_data) for v in range(fmri_data.shape[1]))
