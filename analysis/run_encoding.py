@@ -170,6 +170,8 @@ def main(_):
         for mname, model_df in zip(model_names, [w2vd_df, w2vc_df, bart_df, bartnorm_df, bartpower_df, bart270_df]):
             logging.info("Running {}".format(mname))
             features = model_df.loc[[tag for tag in labels[tag_key]], :]
+            if FLAGS.average:
+                features = features.iloc[::2]
             # result = Parallel(n_jobs=MAX_CPU)(delayed(run_voxel)(v, features, fmri_data) for v in range(fmri_data.shape[1]))
             if FLAGS.betas:
                 val_features = model_df.loc[[tag for tag in val_labels["CDTag"]], :]
