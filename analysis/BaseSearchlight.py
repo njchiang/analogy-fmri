@@ -27,7 +27,7 @@ class CVSearchlight:
         self.phase = phase
         self.target = "{}MainRel".format(phase.upper())
         self.mask = pu.load_img(mask_file, logger=logger) if mask_file else None
-        self.fmri_data, self.labels, self.bg_image = load_betas(projectSettings, sub, t="cope-LSS", logger=logger)
+        self.fmri_data, self.labels, self.bg_image = load_betas(projectSettings, sub, t="cope-LSS", center=True, scale=False, logger=logger)
         self.select_data(phase, phase_equals, phase_val)
         self.init_sl(settings)
         self.outpath = os.path.join(paths["root"], "analysis", sub, "multivariate", "searchlight", "{}_{}-cvsl.nii.gz".format(sub, phase))
