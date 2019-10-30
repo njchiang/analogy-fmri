@@ -65,12 +65,14 @@ def compile_models(write=False):
     humanratings = pu.load_labels(os.path.join("labels", "humanratings.csv"), skiprows=2)
     rstpostprob9 = pu.load_mat_data(os.path.join("labels", "rstpostprob9.mat"))
     rstpostprob79 = pu.load_mat_data(os.path.join("labels", "rstpostprob79.mat"))
+    rstpostprob79thresh = pu.load_mat_data(os.path.join("labels", "rstpostprob79.thresh.mat"))
     rstpostprob79norm = pu.load_mat_data(os.path.join("labels", "rst.BART79norm.mat"))
     rstpostprob79power = pu.load_mat_data(os.path.join("labels", "rst.BART79normpower.mat"))
     rstpostprob270 = pu.load_mat_data(os.path.join("labels", "rst.postprobSP.MAT"))
     concatword = pu.load_mat_data(os.path.join("labels", "w2vconcat.mat"))
     mat_concatword = {}
     mat_rstpostprob79 = {}
+    mat_rstpostprob79thresh = {}
     mat_rstpostprob79norm = {}
     mat_rstpostprob79power = {}
     mat_humanratings = {}
@@ -92,6 +94,7 @@ def compile_models(write=False):
         mat_concatword[wordpair] = concatword["concwordmat"].astype(np.float)[ci]
         mat_rstpostprob9[wordpair] = rstpostprob9["rstpostprob_sm"].astype(np.float)[i]
         mat_rstpostprob79[wordpair] = rstpostprob79["rstpostprob"].astype(np.float)[i]
+        mat_rstpostprob79thresh[wordpair] = rstpostprob79thresh["rstpostprob"].astype(np.float)[i]
         mat_humanratings[wordpair] = humanratings[humanratings.wordpair == wordpair].values[0, 1:].astype(np.float)
         mat_typicality[wordpair] = typicality[typicality.wordpair == wordpair].values[0, 1:].astype(np.float)
         mat_w2v[wordpair] = w2vdiffs[w2vdiffs.wordpair == wordpair].values[0, 1:].astype(np.float)
@@ -118,6 +121,7 @@ def compile_models(write=False):
           "wordpairs": wordpairs,
           "humanratings": mat_humanratings,
           "rstpostprob79": mat_rstpostprob79,
+          "rstpostprob79thresh": mat_rstpostprob79thresh,
           "rstpostprob79norm": mat_rstpostprob79norm,
           "rstpostprob79power": mat_rstpostprob79power,
           "rstpostprob270": mat_rstpostprob270,
@@ -134,7 +138,7 @@ def compile_models(write=False):
     return models
 
 
-def load_rois(t="pymvpa", logger=None):
+def load_rois(t="cope-LSS", logger=None):
     betas = {}
     labels = {}
     for s in projectSettings["subjects"].keys():
