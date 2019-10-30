@@ -66,7 +66,7 @@ def create_models(models, modelnames):
     stacked_models_9rel = []
     stacked_models_full = []
     for i, model in enumerate(modelnames):
-        if (model == "numchar") or (model == "typicality"):
+        if (model == "numchar") or (model == "typicality") or (model == "accuracy"):
             metric = "euclidean"
         else:
             metric = "cosine"
