@@ -165,7 +165,7 @@ def main(_):
         # groups = trials["MainRel"] if FLAGS.cv == "relation" else trials["chunks"]
         # model = Ridge(alpha=0.1)
         # model = ElasticNet(alpha=0.1)
-        model = ElasticNet(alpha=10)
+        model = ElasticNet(alpha=20)
         scoring = make_scorer(corrcoef)
 
         for mname, model_df in zip(model_names, [w2vd_df, w2vc_df, bart_df, bartnorm_df, bartpower_df, bart270_df]):
