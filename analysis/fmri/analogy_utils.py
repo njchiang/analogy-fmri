@@ -70,6 +70,13 @@ def compile_models(write=False):
     rstpostprob79power = pu.load_mat_data(os.path.join("labels", "rst.BART79normpower.mat"))
     rstpostprob270 = pu.load_mat_data(os.path.join("labels", "rst.postprobSP.MAT"))
     concatword = pu.load_mat_data(os.path.join("labels", "w2vconcat.mat"))
+    
+    accuracies = pu.load_labels(os.path.join("labels", "group_accuracy.csv"))
+    accuracies["ABTag"] = accuracies["Trial"].apply(lambda x: x.split("::")[0])
+    accuracies["CDTag"] = accuracies["Trial"].apply(lambda x: x.split("::")[1])
+    accuracies = accuracies.groupby("ABTag").mean()
+    
+    mat_accuracy = {}
     mat_concatword = {}
     mat_rstpostprob79 = {}
     mat_rstpostprob79thresh = {}
@@ -91,6 +98,8 @@ def compile_models(write=False):
         wordpair = rstpostprob79["wordpair"][i, 0][0]
         wordpairs.append(wordpair)
         ci = np.where(concatword["wordpair"][:, :] == wordpair)[0][0]
+        
+        mat_accuracy[wordpair] = accuracies.loc[wordpair].astype(np.float)
         mat_concatword[wordpair] = concatword["concwordmat"].astype(np.float)[ci]
         mat_rstpostprob9[wordpair] = rstpostprob9["rstpostprob_sm"].astype(np.float)[i]
         mat_rstpostprob79[wordpair] = rstpostprob79["rstpostprob"].astype(np.float)[i]
@@ -120,6 +129,7 @@ def compile_models(write=False):
     models = {
           "wordpairs": wordpairs,
           "humanratings": mat_humanratings,
+          "accuracy": mat_accuracy,
           "rstpostprob79": mat_rstpostprob79,
           "rstpostprob79thresh": mat_rstpostprob79thresh,
           "rstpostprob79norm": mat_rstpostprob79norm,
