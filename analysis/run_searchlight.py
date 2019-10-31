@@ -115,7 +115,7 @@ def main(_):
                 "mainrel", "rel",
                 "numchar", "humanratings", "typicality",
                 "w2vdiff", "concatword", "accuracy",
-                "rstpostprob9", "rstpostprob79", "rstpostprob79thresh",
+                "rstpostprob9", "rstpostprob79", "bart79thresh",
                 "rstpostprob270"]
             model_rdms = get_model_rdms(raw_models_df, modelnames)
             modelrdms = model_rdms[(model_rdms.type == "full")].dropna(axis=1).values[:, 2:].astype(np.float64)
