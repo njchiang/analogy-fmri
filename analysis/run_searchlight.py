@@ -118,7 +118,9 @@ def main(_):
                 "rstpostprob9", "rstpostprob79", "bart79thresh",
                 "rstpostprob270"]
             model_rdms = get_model_rdms(raw_models_df, modelnames)
-            modelrdms = model_rdms[(model_rdms.type == "full")].dropna(axis=1).values[:, 2:].astype(np.float64)
+            # modelrdms = model_rdms[(model_rdms.type == "full")].dropna(axis=1).values[:, 2:].astype(np.float64)
+            # deal with NAs in bart thresh
+            modelrdms = model_rdms[(model_rdms.type == "full")].iloc[:, 2:].fillna(0).values.astype(np.float64)
         slargs = {"modelrdms": modelrdms}
     else:
         pu.write_to_logger("wrong analysis specified, exiting...", logger)
