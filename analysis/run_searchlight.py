@@ -5,6 +5,7 @@ import os
 from datetime import datetime
 # import pandas as pd
 import numpy as np
+import statsmodels.api as sm
 from absl import flags
 from absl import logging
 from absl import app
@@ -116,11 +117,18 @@ def main(_):
                 "numchar", "humanratings", "typicality",
                 "w2vdiff", "concatword", "accuracy",
                 "rstpostprob9", "rstpostprob79", "bart79thresh",
-                "rstpostprob270"]
+                "rstpostprob270", "bartregressacc", "accregressbart"]
             model_rdms = get_model_rdms(raw_models_df, modelnames)
             # modelrdms = model_rdms[(model_rdms.type == "full")].dropna(axis=1).values[:, 2:].astype(np.float64)
             # deal with NAs in bart thresh
+            rdms = model_rdms[model_rdms.type == "full"]
+            bart = rdms[rdms.name == "rstpostprob79"].iloc[:, 2:].fillna(0)
+            acc = rdms[rdms.name == "accuracy"].iloc[:, 2:].fillna(0)
+            bart_regress_acc = sm.OLS(bart.T, acc.T).fit().resid
+            acc_regress_bart = sm.OLS(acc.T, bart.T).fit().resid
+
             modelrdms = model_rdms[(model_rdms.type == "full")].iloc[:, 2:].fillna(0).values.astype(np.float64)
+            modelrdms = np.concatenate([modelrdms, np.vstack([bart_regress_acc, acc_regress_bart])], axis=1)
         slargs = {"modelrdms": modelrdms}
     else:
         pu.write_to_logger("wrong analysis specified, exiting...", logger)
