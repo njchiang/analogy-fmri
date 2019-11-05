@@ -128,7 +128,7 @@ def main(_):
             acc_regress_bart = sm.OLS(acc.T, bart.T).fit().resid
 
             modelrdms = model_rdms[(model_rdms.type == "full")].iloc[:, 2:].fillna(0).values.astype(np.float64)
-            modelrdms = np.concatenate([modelrdms, np.vstack([bart_regress_acc, acc_regress_bart])], axis=1)
+            modelrdms = np.concatenate([modelrdms, np.vstack([bart_regress_acc, acc_regress_bart])], axis=0)
         slargs = {"modelrdms": modelrdms}
     else:
         pu.write_to_logger("wrong analysis specified, exiting...", logger)
