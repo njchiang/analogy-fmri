@@ -23,7 +23,7 @@ from fmri.analogy_utils import \
 
 paths = projectSettings["filepaths"]["hoffPaths"]
 
-MAX_CPU = max(1, multiprocessing.cpu_count() // 2)
+MAX_CPU = max(1, multiprocessing.cpu_count() - 1)
 
 FLAGS = flags.FLAGS
 flags.DEFINE_integer("threads", MAX_CPU, "number of cpu threads")
@@ -79,7 +79,8 @@ w2vd_df = (raw_models_df
             .set_index("ABTag")[
                 [c for c in raw_models_df.columns if "w2vdiff" in c]])
 
-model_names = ["Word2vec-diff", "Word2vec-concat", "BART", "BARTnorm", "BARTpower", "BART270"]
+# model_names = ["Word2vec-diff", "Word2vec-concat", "BART", "BARTnorm", "BARTpower", "BART270"]
+model_names = ["BART", "Word2vec-diff", "Word2vec-concat"] # , "BARTnorm", "BARTpower", "BART270"]
 
 CV_LIB = {
     "lor": GroupKFold,
@@ -168,7 +169,7 @@ def main(_):
         model = ElasticNet(alpha=1)
         scoring = make_scorer(corrcoef)
 
-        for mname, model_df in zip(model_names, [w2vd_df, w2vc_df, bart_df, bartnorm_df, bartpower_df, bart270_df]):
+        for mname, model_df in zip(model_names, [bart_df, w2vd_df, w2vc_df] ): #, bartnorm_df, bartpower_df, bart270_df]):
             logging.info("Running {}".format(mname))
             features = model_df.loc[[tag for tag in labels[tag_key]], :]
             if FLAGS.average:
@@ -188,7 +189,13 @@ def main(_):
             if FLAGS.cv:
                 result = Parallel(n_jobs=MAX_CPU)(delayed(run_cv_voxel)(v, model, features, fmri_data, cv, groups, scoring, FLAGS.permutations) for v in range(fmri_data.shape[1]))
                 result = np.array(result)
-                pu.unmask_img(result, mask).to_filename(
+                if FLAGS.permutations:
+                    pu.unmask_img(result[:, 0], mask).to_filename(
+                        os.path.join(paths["root"], "analysis", sub, "encoding", "{}_{}_{}_{}_cv-{}.nii.gz".format(sub, mname, "cope-LSS", FLAGS.phase, FLAGS.cv)))
+                    pu.unmask_img(result[:, 1], mask).to_filename(
+                        os.path.join(paths["root"], "analysis", sub, "encoding", "{}_{}_{}_{}_cv-{}_pval.nii.gz".format(sub, mname, "cope-LSS", FLAGS.phase, FLAGS.cv)))
+                else:
+                    pu.unmask_img(result, mask).to_filename(
                         os.path.join(paths["root"], "analysis", sub, "encoding", "{}_{}_{}_{}_cv-{}.nii.gz".format(sub, mname, "cope-LSS", FLAGS.phase, FLAGS.cv)))
 
 if __name__ == "__main__":
