@@ -18,7 +18,7 @@ returnHere=${PWD}
 cd /u/project/monti/njchiang/code/analogy/analogy-fmri
 python analysis/run_encoding.py \
   --phase=AB \
-  --betas \
-  --threads=16
+  --betas 
+  # --threads=16
   # --n_folds=4 \
 cd ${returnHere}

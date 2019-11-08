@@ -140,13 +140,14 @@ def main(_):
         fmri_data = pu.mask_img(fmri_data, mask)
 
         if FLAGS.betas:
-            val_trials = labels[labels.CD==1]
             if FLAGS.average:
+                val_trials = labels[labels.CD==1]
                 val_trials = val_trials.sort_values(tag_key)
                 val_fmri_data = fmri_data[val_trials.index]
                 val_fmri_data = (val_fmri_data[::2] + val_fmri_data[1::2]) / 2
                 val_labels = val_trials.iloc[::2]
             else:
+                val_trials = labels[(labels.CD==1) & (labels.Match == "1")]
                 val_fmri_data = fmri_data[val_trials.index]
                 val_labels = labels.loc[val_trials.index]
 
@@ -177,6 +178,8 @@ def main(_):
             # result = Parallel(n_jobs=MAX_CPU)(delayed(run_voxel)(v, features, fmri_data) for v in range(fmri_data.shape[1]))
             if FLAGS.betas:
                 val_features = model_df.loc[[tag for tag in val_labels["CDTag"]], :]
+                if len(val_features) != len(val_labels):
+                    val_features = val_features.iloc[::2]
                 results = Parallel(n_jobs=MAX_CPU)(delayed(get_betas)(v, model, features, fmri_data, val_features, val_fmri_data) for v in range(fmri_data.shape[1]))
                 result, preds = list(zip(*results))
                 result = np.array(result).T
