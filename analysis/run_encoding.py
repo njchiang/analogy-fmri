@@ -33,8 +33,9 @@ flags.DEFINE_boolean("debug", False, "debug mode")
 flags.DEFINE_string("cv", None, "[run/relation/lor]")
 flags.DEFINE_integer("n_folds", 4, "Number of CV folds")
 flags.DEFINE_integer("permutations", 0, "Number of permutations")
-flags.DEFINE_boolean("average", True, "Average betas")
-
+flags.DEFINE_boolean("average", False, "Average betas")
+flags.DEFINE_boolean("dists", False, "Add distance predictors")
+flags.DEFINE_float("alpha", 1., "Regularization parameters")
 
 accuracies = pu.load_labels(paths["code"], "labels", "group_accuracy.csv").set_index("Trial")
 
@@ -167,19 +168,25 @@ def main(_):
         # groups = trials["MainRel"] if FLAGS.cv == "relation" else trials["chunks"]
         # model = Ridge(alpha=0.1)
         # model = ElasticNet(alpha=0.1)
-        model = ElasticNet(alpha=1)
+        model = ElasticNet(alpha=FLAGS.alpha)
         scoring = make_scorer(corrcoef)
 
         for mname, model_df in zip(model_names, [bart_df, w2vd_df, w2vc_df] ): #, bartnorm_df, bartpower_df, bart270_df]):
+            if len(model_df) > 144:
+                model_df = model_df.iloc[::2]
             logging.info("Running {}".format(mname))
             features = model_df.loc[[tag for tag in labels[tag_key]], :]
-            if FLAGS.average:
-                features = features.iloc[::2]
+
+            if FLAGS.dists:
+                features["dists"] = np.concatenate(
+                    [rsa.pdist(model_df.iloc.loc[
+                        [t.split("::")[0], t.split("::")[1]]], 
+                         metric="cosine") 
+                     for t in trials.TrialTag])
+
             # result = Parallel(n_jobs=MAX_CPU)(delayed(run_voxel)(v, features, fmri_data) for v in range(fmri_data.shape[1]))
             if FLAGS.betas:
                 val_features = model_df.loc[[tag for tag in val_labels["CDTag"]], :]
-                if len(val_features) != len(val_labels):
-                    val_features = val_features.iloc[::2]
                 results = Parallel(n_jobs=MAX_CPU)(delayed(get_betas)(v, model, features, fmri_data, val_features, val_fmri_data) for v in range(fmri_data.shape[1]))
                 result, preds = list(zip(*results))
                 result = np.array(result).T

@@ -20,7 +20,8 @@ python analysis/run_encoding.py \
   --phase=AB \
   --cv=relation \
   --n_folds=4 \
-  --permutations=500
+  --permutations=500 \
+  --average
   # --threads=16
   # --n_folds=4 \
 cd ${returnHere}

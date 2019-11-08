@@ -21,6 +21,7 @@ python analysis/run_encoding.py \
   --cv=relation \
   --n_folds=4 \
   --permutations=0 \
-  --threads=16
+  --threads=16 \
+  --average
   # --n_folds=4 \
 cd ${returnHere}
