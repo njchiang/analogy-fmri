@@ -36,7 +36,7 @@ flags.DEFINE_integer("permutations", 0, "Number of permutations")
 flags.DEFINE_boolean("average", False, "Average betas")
 flags.DEFINE_boolean("dists", False, "Add distance predictors")
 flags.DEFINE_float("alpha", 1., "Regularization parameters")
-flags.DEFINE_integer("subject", None, "Subject ID")
+flags.DEFINE_string("subject", None, "Subject ID")
 
 accuracies = pu.load_labels(paths["code"], "labels", "group_accuracy.csv").set_index("Trial")
 
