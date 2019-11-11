@@ -36,6 +36,7 @@ flags.DEFINE_integer("permutations", 0, "Number of permutations")
 flags.DEFINE_boolean("average", False, "Average betas")
 flags.DEFINE_boolean("dists", False, "Add distance predictors")
 flags.DEFINE_float("alpha", 1., "Regularization parameters")
+flags.DEFINE_string("subject", None, "Subject ID")
 
 accuracies = pu.load_labels(paths["code"], "labels", "group_accuracy.csv").set_index("Trial")
 
@@ -119,7 +120,13 @@ def main(_):
     if FLAGS.debug:
         return
     # for sub in ["sub-01", "sub-02"]:
-    for sub in projectSettings["subjects"]:
+
+    if FLAGS.subject: 
+        subjects = [FLAGS.subject]
+    else:
+        subjects = projectSettings["subjects"]
+
+    for sub in subjects:
         logging.info("Starting subject {}".format(sub))
         mask = pu.load_img(paths["root"], "derivatives", sub, "masks", "{}.nii.gz".format(maskname))
         fmri_data, labels, _ = load_betas(projectSettings, sub, t="cope-LSS", center=True, scale=False)
@@ -169,6 +176,7 @@ def main(_):
         # model = Ridge(alpha=0.1)
         # model = ElasticNet(alpha=0.1)
         model = ElasticNet(alpha=FLAGS.alpha)
+        # model = Ridge(alpha=FLAGS.alpha)
         scoring = make_scorer(corrcoef)
 
         for mname, model_df in zip(model_names, [bart_df, w2vd_df, w2vc_df] ): #, bartnorm_df, bartpower_df, bart270_df]):
