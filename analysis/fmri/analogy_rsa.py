@@ -212,7 +212,7 @@ def run_rsa_dfs(rdms, models):
 
 
 def subject_rdms(rois, labels, masks_dict, metric="correlation", subset=None,
-                 b="tstat-LSS"):
+                 b="cope-LSS"):
     subject_names = []
     mask_names = []
     betatypes = []
@@ -273,7 +273,7 @@ def subject_rdms(rois, labels, masks_dict, metric="correlation", subset=None,
 #
 #         ticks = np.arange(0, 72, 8) - 0.5
 #
-#         pv.plot_rdm(stacked_models["subrel"][i], ax=axarr[2, i], cb=False, cmap="plasma")
+        #  pv.plot_rdm(stacked_models["subrel"][i], ax=axarr[2, i], cb=False, cmap="plasma")
 #         #         axarr[i].set_axis_off()
 #         axarr[2, i].set_title(m)
 #         axarr[2, i].xaxis.set_major_formatter(plt.NullFormatter())
