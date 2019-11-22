@@ -22,6 +22,6 @@ python analysis/run_searchlight.py \
     --phase=AB \
     --mask=graymatter-bin_mask \
     --sub=${1} \
-    --permutations=100
+    --permutations=50
 
 cd ${returnHere}
