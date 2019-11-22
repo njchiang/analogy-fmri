@@ -21,7 +21,7 @@ paths = PATHS
 
 
 class CVSearchlight:
-    def __init__(self, sub, mask_file=None, settings=analysisSettings["searchlight"], phase="AB", logger=None, phase_equals=True, phase_val=1):
+    def __init__(self, sub, mask_file=None, settings=analysisSettings["searchlight"], phase="AB", logger=None, phase_equals=True, phase_val=1, permutations=0):
         self.logger = logger
         self.sub = sub
         self.phase = phase
@@ -30,7 +30,11 @@ class CVSearchlight:
         self.fmri_data, self.labels, self.bg_image = load_betas(projectSettings, sub, t="cope-LSS", center=True, scale=False, logger=logger)
         self.select_data(phase, phase_equals, phase_val)
         self.init_sl(settings)
-        self.outpath = os.path.join(paths["root"], "analysis", sub, "multivariate", "searchlight", "{}_{}-cvsl.nii.gz".format(sub, phase))
+        self.permutations = permutations
+        if self.permutations > 0:
+            self.outpath = os.path.join(paths["root"], "analysis", sub, "multivariate", "searchlight", "permutation", "{}_{}-cvsl.nii.gz".format(sub, phase))
+        else:
+            self.outpath = os.path.join(paths["root"], "analysis", sub, "multivariate", "searchlight", "{}_{}-cvsl.nii.gz".format(sub, phase))
 
     def select_data(self, phase="AB", equals=True, val=1):
         if equals:
@@ -55,7 +59,7 @@ class CVSearchlight:
     def run(self, **unused):
         result = pa.searchlight(self.fmri_data, self.selector[self.target],
                                 m=self.mask, cv=self.cv,
-                                permutations=permutations,
+                                permutations=self.permutations,
                                 random_state=42,
                                 groups=self.selector['chunks'], write=False,
                                 logger=self.logger, **self.sl_options)
