@@ -55,6 +55,8 @@ class CVSearchlight:
     def run(self, **unused):
         result = pa.searchlight(self.fmri_data, self.selector[self.target],
                                 m=self.mask, cv=self.cv,
+                                permutations=permutations,
+                                random_state=42,
                                 groups=self.selector['chunks'], write=False,
                                 logger=self.logger, **self.sl_options)
         pu.data_to_img(result.scores_, self.bg_image, logger=self.logger).to_filename(self.outpath)
