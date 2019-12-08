@@ -37,10 +37,13 @@ class CVSearchlight:
             self.outpath = os.path.join(paths["root"], "analysis", sub, "multivariate", "searchlight", "{}_{}-cvsl.nii.gz".format(sub, phase))
 
     def select_data(self, phase="AB", equals=True, val=1):
-        if equals:
-            self.selector = self.labels[self.labels[phase] == val]
+        if phase.upper() == "CDMATCH":
+            self.selector = self.labels[(self.labels["CD"] == 1) & (self.labels["Match"] == "1")]
         else:
-            self.selector = self.labels[self.labels[phase] != val]
+            if equals:
+                self.selector = self.labels[self.labels[phase] == val]
+            else:
+                self.selector = self.labels[self.labels[phase] != val]
         self.fmri_data = pu.index_img(self.fmri_data, self.selector.index)
         self.labels = self.labels.loc[self.selector.index]
 
